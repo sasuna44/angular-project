@@ -1,9 +1,28 @@
-// src/app/models/product.model.ts
-export interface Product {
+export class Product {
     id: number;
-    name: string;
+    title: string;
+    image?: string;
     price: number;
-    description: string;
-    imageUrl: string;
+    details?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+  
+    constructor(
+      id: number,
+      title: string,
+      price: number,
+      image?: string,
+      details?: string,
+      createdAt?: Date,
+      updatedAt?: Date
+    ) {
+      this.id = id;
+      this.title = title;
+      this.price = price;
+      this.image = image;
+      this.details = details;
+      this.createdAt = createdAt;
+      this.updatedAt = updatedAt;
+    }
   }
   
