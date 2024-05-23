@@ -1,0 +1,122 @@
+
+.main{
+    height: 100vh;
+    /* background-color: 	 #f4f3eb; */
+    position: relative;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url(https://i.pinimg.com/236x/7b/f9/f7/7bf9f782cdf21b0ed3c74865bef0c4ec.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.error-message {
+    color: red;
+}
+
+.no-orders {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.no-orders a {
+    color: blue;
+}
+
+.order-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.order-item {
+  
+    height: 238px;
+    flex: 1 1 calc(50% - 20px);
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-color: white;
+}
+.parent{
+  position: absolute;
+  top: 150px;
+  left: 0;
+  width: 96%;
+ background-color: white;
+ /* height: 460px; */
+ border-top-right-radius: 100px;
+ border-bottom-right-radius: 100px;
+ padding-right: 15px;
+ padding-top: 90px;
+ padding-bottom: 90px;
+}
+.order-content {
+    flex: 1;
+}
+
+.order-info {
+    margin-bottom: 10px;
+}
+
+.order-actions {
+    text-align: left;
+}
+
+.card-header {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    right: 70px;
+    bottom: 0;
+    
+    z-index: 2
+}
+
+button {
+    padding: 8px 12px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: black;
+    color: white;
+}
+.order-info h3,
+.order-info h4 {
+    margin-bottom: 5px;
+}
+
+.order-info h3 {
+    /* font-size: 18px; */
+    font-weight: bold;
+    color: #ffeb3b; /* Total price color */
+}
+
+.order-info h4 {
+    margin-bottom: 40px;
+    /* font-size: 16px; */
+    font-weight: normal;
+    color: #333; /* Status color */
+}
+
+@media (max-width: 800px) {
+    .parent{
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        width: 100%;
+    }
+    .order-item {
+        /* height: 138px; */
+        flex: 1 1 100%;
+    }
+    img{
+        width: 200px;
+    }
+}
