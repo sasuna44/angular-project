@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class OrdersComponent implements OnInit {
     orders: Order[] = [];
     filterTerm: 'pending' | 'accepted' | 'rejected' | 'all' = 'all';
+    userId: number = 1; // Example userId, you should set it appropriately
 
     constructor(private orderService: OrderService) {}
 
@@ -25,10 +26,22 @@ export class OrdersComponent implements OnInit {
         this.orderService.getOrders().subscribe(
             (data: Order[]) => {
                 this.orders = data;
-                console.log('Orders loaded:', this.orders); // للتأكد من أن البيانات محملة بشكل صحيح
+                console.log('Orders loaded:', this.orders);
             },
-            (error) => {
+            (error: any) => {
                 console.error('Error fetching orders', error);
+            }
+        );
+    }
+
+    loadOrdersByUserId(): void {
+        this.orderService.getOrdersByUserId(this.userId).subscribe(
+            (data: Order[]) => {
+                this.orders = data;
+                console.log(`Orders for user ${this.userId} loaded:`, this.orders);
+            },
+            (error: any) => {
+                console.error(`Error fetching orders for user ${this.userId}`, error);
             }
         );
     }
@@ -41,17 +54,16 @@ export class OrdersComponent implements OnInit {
     }
 
     updateOrderStatus(id: number, status: 'accepted' | 'rejected'): void {
-        console.log('Updating order status:', id, status); // للتأكد من أن الوظيفة مستدعاة بشكل صحيح
+        console.log('Updating order status:', id, status);
         this.orderService.updateOrderStatus(id, status).subscribe(
             () => {
-                console.log('Order status updated:', id, status); // تأكيد الاستجابة الناجحة
-                // تحديث حالة الطلب محليًا
+                console.log('Order status updated:', id, status);
                 const order = this.orders.find(order => order.id === id);
                 if (order) {
                     order.status = status;
                 }
             },
-            (error) => {
+            (error: any) => {
                 console.error('Error updating order status', error);
             }
         );

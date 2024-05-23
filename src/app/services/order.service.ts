@@ -7,6 +7,7 @@ export interface Order {
     user_id: number;
     username: string;
     date: string;
+    img: string;
     total_price: number;
     status: 'pending' | 'accepted' | 'rejected';
     products: {
@@ -33,7 +34,15 @@ export class OrderService {
         return this.http.get<Order>(`${this.apiUrl}/${id}`);
     }
 
+    getOrdersByUserId(userId: number): Observable<Order[]> {
+        return this.http.get<Order[]>(`${this.apiUrl}?user_id=${userId}`);
+    }
+
     updateOrderStatus(id: number, status: 'accepted' | 'rejected'): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/${id}`, { status }); 
+        return this.http.patch(`${this.apiUrl}/${id}`, { status });
+    }
+
+    deleteOrder(id: number): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}`);
     }
 }
