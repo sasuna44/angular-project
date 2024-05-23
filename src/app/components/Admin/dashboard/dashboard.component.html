@@ -1,37 +1,32 @@
-
-<div class="container-fluid">
-    <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-          <h2>Admin Dashboard</h2>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="../Html/index.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Products/ListAllProudcts.html">Products</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Orders/allOrders.html">Orders</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Users/allUsers.html">Users</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#settings">Settings</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-  
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+<router-outlet></router-outlet>
+<div class="dashboard-container">
+    <div class="main-content">
+      <div class="content">
         <header>
-          <h1>Welcome, Admin</h1>
+          <h1>Welcome, Admin </h1>
         </header>
-        <div class="content">
-          <!-- Add your main content here -->
-        </div>
-      </main>
+        <section id="dashboard">
+          <h2>Dashboard Overview</h2>
+          <div class="cards">
+            <div class="card">
+              <h3>Total Sales</h3>
+              <p>$25,000</p>
+            </div>
+            <div class="card">
+              <h3>Total Orders</h3>
+              <p>1,200</p>
+            </div>
+            <div class="card">
+              <h3>Total Users</h3>
+              <p>3,500</p>
+            </div>
+            <div class="card">
+              <h3>Products Sold</h3>
+              <p>5,000</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
   
