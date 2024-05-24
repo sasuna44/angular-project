@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Auth ,Login} from '../models/Register.model';
+import { Auth, Login } from '../models/Register.model';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -10,11 +10,10 @@ import { Router } from '@angular/router';
 })
 export class Loginservice {
   private apiUrl = 'http://localhost:3000/users'; 
-  private tokenKey = 'token'
-  router: any;
-  constructor(private http: HttpClient) {}
+  private tokenKey = 'token';
 
- 
+  constructor(private http: HttpClient, private router: Router) {}
+
   login(loginData: Login): Observable<Auth> {
     return this.http.post<Auth>(this.apiUrl, loginData)
       .pipe(
@@ -28,16 +27,23 @@ export class Loginservice {
   }
 
   getTokenFromLocalStorage(): string | null {
-    console.log(localStorage.getItem(this.tokenKey) )
+    console.log(localStorage.getItem(this.tokenKey));
     return localStorage.getItem(this.tokenKey); 
   }
+
   getCurrentUser(): string | null {
     return localStorage.getItem('id'); 
+  }
+
+  isAdmin(): boolean {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user && user.role === 'admin';
   }
 
   logout() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem('id');
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }
