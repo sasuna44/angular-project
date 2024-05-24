@@ -2,14 +2,15 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/User/home/home.component'
 import { ProductDetailComponent } from './components/User/product-detail/product-detail.component'
 import { provideRouter } from '@angular/router';
-import { LayoutComponent } from './components/Admin/layout/layout.component';
-import { ADMIN_ROUTES } from './components/Admin/admin.routes';
+import { LayoutComponent } from './components/admin/layout/layout.component';
+import { ADMIN_ROUTES } from './components/admin/admin.routes';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guard/guard.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditprofileComponent } from './components/editprofile/editprofile.component';
 import { OrderComponent } from './components/order/order.component';
+import { AdminGuard } from './guard/admin.guard';
 
 export const routes: Routes = [
     // loign-register-routes
