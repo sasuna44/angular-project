@@ -1,0 +1,122 @@
+<div class="container">
+    <h1 class="text-center my-5 fw-bold">All Products</h1>
+    <div>
+          <!--  this will be added in the nav bar -->
+         <input  class="btn search-btn text-start text-light" type = "text"  name="search" (keyup)="filterName($event.key)" placeholder="Search by Product Name">
+           @if(filteredProducts.length == 0) {
+            <p>there is not product with this name or start with this letter please enter another name !</p>
+
+            }
+            <select class="selectpicker" data-live-search="true">
+                @for (product of filteredProducts  ;track product.id){
+                    <option value="{{product.id}}" (click)="goToProduct(product.id)">{{product.title}}</option>
+
+                }
+            </select>
+    </div>
+  <div class="row">
+        @if(filteredProducts.length == 0 ){
+            @for (product of products  ;track product.id){
+                <div class="col-md-4 my-3" >
+                      <div (click)="goToProduct(product.id)" class="prodcut-link">
+                      <div class="d-flex flex-column">
+                        <div class="products-data p-4">
+                          <div class="products-tags d-flex flex-row justify-content-between align-items-center">
+                            <div class="products-tag">
+                              <span>{{ product.tag }}</span>
+                            </div>
+                            <div class="products-wish">
+                              <fa-icon [icon]="faPlus"></fa-icon>
+                            </div>
+                          </div>
+                          <div class="products-slider">
+                            <div class="swiper mySwiper products-swiper">
+                              <div class="swiper-wrapper">
+                                <!-- <div class="swiper-slide products-swiper-slider">
+                                  @for(image of product.images ){
+                                    <img src="image" alt="">
+                                  }
+                                </div> -->
+                                <div class="swiper-slide products-swiper-slider">
+                                    <img src="{{product.images}}" alt="" >
+                                </div>
+                              </div>
+                              <div class="swiper-pagination"></div>
+                            </div>
+                          </div>
+                          <div class="products-detail">
+                            <div class="products-detail-header">
+                              <div class="products-detail-data my-2 text-capitalize">
+                                <span class="fw-bold  ">{{ product.title }}</span>
+                              </div>
+                              <div class="products-info d-flex flex-column my-2">
+                                <span class="my-2 fw-bold">{{ product.details }}</span>
+                                <div class="products-price d-flex align-items-center">
+                                  <span class="me-2">EGP</span>
+                                  <strong class="fs-4">{{ product.price }}</strong>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+            }
+        }
+        @else{
+            @for (product of filteredProducts  ;track product.id){
+                <div class="col-md-4 my-3" >
+                      <div (click)="goToProduct(product.id)" class="prodcut-link">
+                      <div class="d-flex flex-column">
+                        <div class="products-data p-4">
+                          <div class="products-tags d-flex flex-row justify-content-between align-items-center">
+                            <div class="products-tag">
+                              <span>{{ product.tag }}</span>
+                            </div>
+                            <div class="products-wish">
+                              <fa-icon [icon]="faPlus"></fa-icon>
+                            </div>
+                          </div>
+                          <div class="products-slider">
+                            <div class="swiper mySwiper products-swiper">
+                              <div class="swiper-wrapper">
+                                <!-- <div class="swiper-slide products-swiper-slider">
+                                  @for(image of product.images ){
+                                    <img src="image" alt="">
+                                  }
+                                </div> -->
+                                <div class="swiper-slide products-swiper-slider">
+                                    <img src="{{product.images}}" alt="" >
+                                </div>
+                              </div>
+                              <div class="swiper-pagination"></div>
+                            </div>
+                          </div>
+                          <div class="products-detail">
+                            <div class="products-detail-header">
+                              <div class="products-detail-data my-2 text-capitalize">
+                                <span class="fw-bold  ">{{ product.title }}</span>
+                              </div>
+                              <div class="products-info d-flex flex-column my-2">
+                                <span class="my-2 fw-bold">{{ product.details }}</span>
+                                <div class="products-price d-flex align-items-center">
+                                  <span class="me-2">EGP</span>
+                                  <strong class="fs-4">{{ product.price }}</strong>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            }
+        }
+        
+      
+    
+  </div>
+</div>
