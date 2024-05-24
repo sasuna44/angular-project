@@ -1,27 +1,39 @@
-<section id="products">
-    <button class="add-product btn btn-primary" [routerLink]="['/admin/add-product']">Add Product</button>
-    <table>
-        <thead>
-            <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Image</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of products">
-                <td>{{ product.id }}</td>
-                <td>{{ product.title }}</td>
-                <td>{{ product.price }}</td>
-                <td><img [src]="product.image" alt="{{ product.title }}" style="width: 50px; height: 50px;"/></td>
-                <td class="actions">
-                    <button class="view-product btn btn-info" [routerLink]="['/admin/view-product', product.id]">View</button>
-                    <button class="edit-product btn btn-warning" (click)="editProduct(product.id)">Edit</button>
-                    <button class="delete-product btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
+<section id="products" class="container">
+    <h1 class="text-center my-5 fw-bold">All Products</h1>
+    <div class="row mb-3 align-items-center">
+      <div class="col-md-4">
+        <button class="add-product btn btn-primary" (click)="addProduct()">Add Product</button>
+      </div>
+      <div class="col-md-8 text-end">
+        <input class="form-control"  type="text" placeholder="Search by Product Name" (input)="filterProducts($event)">
+      </div>
+    </div>
+    <table *ngIf="filteredProducts && filteredProducts.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of filteredProducts">
+          <td>{{ product.id }}</td>
+          <td>{{ product.title }}</td>
+          <td>{{ product.price }}</td>
+          <td><img [src]="product.image" alt="{{ product.title }}" style="width: 50px; height: 50px;"></td>
+          <td class="actions">
+            <button class="view-product btn btn-info" (click)="viewProduct(product.id)">View</button>
+            <button class="edit-product btn btn-warning" (click)="editProduct(product.id)">Edit</button>
+            <button class="delete-product btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</section>
+    <div *ngIf="filteredProducts && filteredProducts.length === 0">
+      <p>No products found.</p>
+    </div>
+  </section>
+  

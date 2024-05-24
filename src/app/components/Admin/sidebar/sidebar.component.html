@@ -1,11 +1,8 @@
-<!-- sidebar.component.html -->
+<!-- layout/sidebar.component.html -->
 <div class="sidebar">
-
-    <ul>
-      <li><a routerLink="/admin/dashboard" routerLinkActive="active-link">Dashboard</a></li>
-      <li><a routerLink="/admin/products" routerLinkActive="active-link">Products</a></li>
-      <li><a routerLink="/admin/orders" routerLinkActive="active-link">Orders</a></li>
-      <li><a routerLink="/admin/settings" routerLinkActive="active-link">Settings</a></li>
-    </ul>
-  </div>
-  
+  <ul>
+    <li><a routerLink="/admin/dashboard" routerLinkActive="active-link"><fa-icon [icon]="faTachometerAlt"></fa-icon> Dashboard</a></li>
+    <li><a routerLink="/admin/products" routerLinkActive="active-link"><fa-icon [icon]="faBoxOpen"></fa-icon> Products</a></li>
+    <li><a routerLink="/admin/orders" routerLinkActive="active-link"><fa-icon [icon]="faShoppingCart"></fa-icon> Orders</a></li>
+  </ul>
+</div>
