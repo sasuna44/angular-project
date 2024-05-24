@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
+import { faTachometerAlt, faBoxOpen, faShoppingCart, faCogs } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [FontAwesomeModule, RouterLink, CommonModule, RouterModule],
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  faTachometerAlt = faTachometerAlt;
+  faBoxOpen = faBoxOpen;
+  faShoppingCart = faShoppingCart;
+  faCogs = faCogs;
+}

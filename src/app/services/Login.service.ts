@@ -3,12 +3,15 @@ import { HttpClient , HttpErrorResponse} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Auth ,Login} from '../models/Register.model';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
 export class Loginservice {
   private apiUrl = 'http://localhost:3000/users'; 
   private tokenKey = 'token'
+  router: any;
   constructor(private http: HttpClient) {}
 
  
@@ -30,5 +33,11 @@ export class Loginservice {
   }
   getCurrentUser(): string | null {
     return localStorage.getItem('id'); 
+  }
+
+  logout() {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('id');
+    this.router.navigate(['/login']);
   }
 }
