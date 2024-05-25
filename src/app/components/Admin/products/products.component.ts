@@ -32,7 +32,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   loadProducts(): void {
-    this.sub = this.productService.getProducts().subscribe(
+    this.sub = this.productService.getAllProducts().subscribe(
       (data: Product[]) => {
         this.products = data;
         this.filteredProducts = data;
@@ -90,7 +90,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         if (this.selectedProduct) {
-          this.selectedProduct.image = e.target.result;
+          this.selectedProduct.image = file;
         }
       };
       reader.readAsDataURL(file);
@@ -106,7 +106,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
       formData.append('title', this.selectedProduct.title);
       formData.append('price', this.selectedProduct.price.toString());
       formData.append('details', this.selectedProduct.details);
-      formData.append('image', this.selectedProduct.image);
+
+      if (this.selectedProduct.image instanceof File) {
+        formData.append('image', this.selectedProduct.image);
+      } else {
+        formData.append('image', this.selectedProduct.image as string);
+      }
 
       this.productService.updateProduct(this.selectedProduct.id, formData).subscribe(
         () => {

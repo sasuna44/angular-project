@@ -22,7 +22,7 @@ export interface Order {
     providedIn: 'root'
 })
 export class OrderService {
-    private apiUrl = 'http://localhost:8000/orders';
+    private apiUrl = 'http://localhost:3000/orders';
 
     constructor(private http: HttpClient) {}
 

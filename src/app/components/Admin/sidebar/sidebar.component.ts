@@ -3,6 +3,7 @@ import { faTachometerAlt, faBoxOpen, faShoppingCart, faCogs } from '@fortawesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Loginservice } from '../../../services/Login.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,4 +17,10 @@ export class SidebarComponent {
   faBoxOpen = faBoxOpen;
   faShoppingCart = faShoppingCart;
   faCogs = faCogs;
+
+  constructor(private loginService: Loginservice) {}
+
+  signOut() {
+    this.loginService.logout();
+  }
 }

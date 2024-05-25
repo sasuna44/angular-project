@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { Loginservice } from '../../../services/Login.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  selector: 'app-admin-navbar',
   standalone: true,
-  imports: [CommonModule]
+  imports: [],
+  templateUrl: './admin-navbar.component.html',
+  styleUrl: './admin-navbar.component.css'
 })
-export class NavbarComponent {
-
+export class AdminNavbarComponent {
   constructor(private loginService: Loginservice) {}
 
   signOut() {
     this.loginService.logout();
   }
+
 }
