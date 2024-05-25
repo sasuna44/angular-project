@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService, Product } from '../../../services/product.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 export class ProductsComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  filterTerm: string = '';
+  selectedProduct: Product | null = null;
   sub: Subscription | null = null;
 
   constructor(private productService: ProductService, private router: Router) {}
@@ -35,7 +35,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.sub = this.productService.getProducts().subscribe(
       (data: Product[]) => {
         this.products = data;
-        this.filteredProducts = data; // Initialize filteredProducts
+        this.filteredProducts = data;
         console.log('Products loaded:', this.products);
       },
       (error) => {
@@ -74,11 +74,49 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.productService.deleteProduct(id).subscribe(
         () => {
           this.products = this.products.filter(product => product.id !== id);
-          this.filterProducts(new Event('input')); // Update the filtered list after deletion
+          this.filterProducts(new Event('input'));
           console.log(`Product with id ${id} deleted successfully`);
         },
         (error) => {
           console.error('Error deleting product', error);
+        }
+      );
+    }
+  }
+
+  onFileSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        if (this.selectedProduct) {
+          this.selectedProduct.image = e.target.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  saveProduct(form: NgForm): void {
+    if (form.invalid) {
+      return;
+    }
+    if (this.selectedProduct) {
+      const formData = new FormData();
+      formData.append('title', this.selectedProduct.title);
+      formData.append('price', this.selectedProduct.price.toString());
+      formData.append('details', this.selectedProduct.details);
+      formData.append('image', this.selectedProduct.image);
+
+      this.productService.updateProduct(this.selectedProduct.id, formData).subscribe(
+        () => {
+          console.log('Product updated successfully');
+          this.loadProducts();
+          // Navigate back to products list or show success message
+        },
+        (error) => {
+          console.error('Error updating product:', error);
+          // Show error message
         }
       );
     }
