@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 
 export interface Promotion {
-    product: number;
+    id: number;
     discount_percentage: number;
     start_date: string;
     end_date: string;
@@ -17,12 +17,7 @@ export interface Product {
     created_at: string;
     updated_at: string;
     quantity:number;
-    promotion:{
-        id:number,
-        discount_percentage:number,
-        start_date:string,
-        end_date:string
-    }
+    promotion?:Promotion
 }
 
 @Injectable({

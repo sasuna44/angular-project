@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService, CartItem } from '../../../services/cart.service';
 import { Product, ProductService } from '../../../services/product.service';
@@ -11,16 +9,15 @@ import { ProductsComponent } from '../products/products.component';
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule],
+  imports: [RouterLink],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit , OnDestroy {
-  faPlus = faPlus;
   products: Product[] = []; 
   sub:Subscription|null = null;
   filteredProducts:Product[] = [];
-  constructor(private router: Router, private cartService: CartService , private productservice :ProductService) {
+  constructor( private cartService: CartService , private productservice :ProductService) {
   }
   ngOnInit(): void {
       this.sub = this.productservice.getProducts().subscribe(prodcuts => this.products = prodcuts);
@@ -30,17 +27,12 @@ export class ProductListComponent implements OnInit , OnDestroy {
       this.sub?.unsubscribe();
   }
 
-    goToProduct(id:number){
 
-    }
  
 
   filterName(event: string) {
     this.filteredProducts = this.products.filter(product => product.title.includes(event));
   }
 
-  addProductToCart(product: Product) {
-    const cartItem: CartItem = { products: product, quantity: 1 };
-    this.cartService.addToCart(cartItem);
-  }
+ 
 }

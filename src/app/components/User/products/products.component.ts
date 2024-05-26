@@ -2,21 +2,21 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { faPlus  } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import Swiper from 'swiper';
-import { Router, RouterLink } from '@angular/router';
 import { Product, ProductService } from '../../../services/product.service';
 import { Subscription, pipe } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [FontAwesomeModule, RouterLink, CommonModule],
+  imports: [CommonModule , RouterLink],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
 
 export class ProductsComponent implements AfterViewInit , OnInit , OnDestroy {
-  constructor(private router: Router , private productService :ProductService) {}
+  constructor( private productService :ProductService) {}
   products: Product[] = []; 
   sub:Subscription|null = null;
   ngAfterViewInit(): void {
@@ -57,7 +57,4 @@ export class ProductsComponent implements AfterViewInit , OnInit , OnDestroy {
 
   faPlus  = faPlus ;
 
-  goToProduct(id:number): void {
-    this.router.navigate(['product/detail/',id]);
-  }
 }

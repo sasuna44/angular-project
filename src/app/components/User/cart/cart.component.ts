@@ -12,18 +12,18 @@ import { faRemove } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
-  cartItems: any[] = [];
+export class CartComponent  {
+  // cartItems: any[] = [];
 
-  constructor(private cartService: CartService) {}
+  // constructor(private cartService: CartService) {}
 
-  ngOnInit() {
-    this.cartService.cartData$.subscribe(items => {
-      this.cartItems = items;
-    });
-  }
-  faremove=faRemove;
-  removeFromCart(productId: number) {
-    this.cartItems = this.cartItems.filter(item => item.products.id !== productId);
-  }
+  // ngOnInit() {
+  //   this.cartService.cartData$.subscribe(items => {
+  //     this.cartItems = items;
+  //   });
+  // }
+  // faremove=faRemove;
+  // removeFromCart(productId: number) {
+  //   this.cartItems = this.cartItems.filter(item => item.products.id !== productId);
+  // }
 }

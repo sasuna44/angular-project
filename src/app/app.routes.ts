@@ -19,9 +19,11 @@ export const routes: Routes = [
 
     // cart
     {path:"cart",component:CartComponent},
-    // user-routes
+    //Product 
     {path:"home",component:HomeComponent},
-    {path: 'product/detail/:id',component:ProductDetailComponent },
+    {path: 'product/details/:id',component:ProductDetailComponent },
+
+    
     // this is for the  route
     {path:'' , redirectTo:'home', pathMatch:'full'},
     // Admin-routes     

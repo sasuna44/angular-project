@@ -17,14 +17,14 @@
   <div class="row">
             @for (product of products  ;track $index){
                 <div class="col-md-4 my-3" >
-                      <div (click)="goToProduct(product.id)" class="prodcut-link">
                       <div class="d-flex flex-column">
                         <div class="products-data p-4">
                           <div class="products-tags d-flex flex-row justify-content-between align-items-center">
-                            
-                            <!-- <div class="products-wish">
-                              <fa-icon [icon]="faPlus"></fa-icon>
-                            </div> -->
+                            @if(product.promotion){
+                              <div class="products-tag">
+                                <span class="fw-bolder" >{{ product.promotion.discount_percentage}}%</span>
+                              </div>
+                            }
                           </div>
                           <div class="products-slider">
                             <div class="swiper mySwiper products-swiper">
@@ -52,13 +52,19 @@
                                   <strong class="fs-4">{{ product.price }}</strong>
                                 </div>
                               </div>
+                              <div class="add-cart text-center d-flex justify-content-around my-3">
+                                <button class="btn btn-primary" [routerLink]="['/product/details', product.id]">View Details</button>
+                                <button class="btn btn-primary" >Add To Cart</button>
+                              </div>
+
                             </div>
                           </div>
                           
                         </div>
                       </div>
                     </div>
-                    </div>
+            }@empty {
+              <p class="altert alert-warning text-capitalize"> there is no product to display !!</p>
             }
       
       
