@@ -11,10 +11,14 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditprofileComponent } from './components/editprofile/editprofile.component';
 import { OrderComponent } from './components/order/order.component';
 import { AdminGuard } from './guard/admin.guard';
+import { CartComponent } from './components/User/cart/cart.component';
 
 export const routes: Routes = [
     // loign-register-routes
 
+
+    // cart
+    {path:"cart",component:CartComponent},
     // user-routes
     {path:"home",component:HomeComponent},
     {path: 'product/detail/:id',component:ProductDetailComponent },

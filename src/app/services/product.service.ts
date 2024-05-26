@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
+export interface Promotion {
+    product: number;
+    discount_percentage: number;
+    start_date: string;
+    end_date: string;
+}
 export interface Product {
     id: number;
     title: string;
@@ -10,13 +16,20 @@ export interface Product {
     details: string;
     created_at: string;
     updated_at: string;
+    quantity:number;
+    promotion:{
+        id:number,
+        discount_percentage:number,
+        start_date:string,
+        end_date:string
+    }
 }
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
-    private apiUrl = 'http://localhost:8000/products'; 
+    private apiUrl = 'http://localhost:3000/products'; 
 
     constructor(private http: HttpClient) {}
 
@@ -39,6 +52,7 @@ export class ProductService {
     deleteProduct(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
+
 
    
 }
