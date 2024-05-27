@@ -18,7 +18,7 @@ export const routes: Routes = [
 
 
     // cart
-    {path:"cart",component:CartComponent},
+    {path: 'cart', component: CartComponent } ,   
     //Product 
     {path:"home",component:HomeComponent},
     {path: 'product/details/:id',component:ProductDetailComponent },

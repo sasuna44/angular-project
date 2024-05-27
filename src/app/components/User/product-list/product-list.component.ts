@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { CartService, CartItem } from '../../../services/cart.service';
+import { CartService, } from '../../../services/cart.service';
 import { Product, ProductService } from '../../../services/product.service';
-import { Subscription, subscribeOn } from 'rxjs';
-import { ProductsComponent } from '../products/products.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
