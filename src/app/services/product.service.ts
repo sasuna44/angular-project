@@ -1,32 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-export class Product {
-    constructor(
-      public id: number,
-      public title: string,
-      public image: string | File,
-      public price: number,
-      public details: string,
-      public created_at: string,
-      public updated_at: string
-    ) {}
-  }
-  
-  
+export interface Promotion {
+    id: number;
+    discount_percentage: number;
+    start_date: string;
+    end_date: string;
+}
+export interface Product {
+    id: number;
+    title: string;
+    image: string;
+    price: number;
+    details: string;
+    created_at: string;
+    updated_at: string;
+    quantity:number;
+    promotion?:Promotion
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private baseurl = 'http://localhost:3000/products';
+  private baseurl = 'http://127.0.0.1:8000/api/products';
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts(): Observable<Product[]> {
+  getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.baseurl);
   }
-
+  
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseurl}/${id}`);
   }

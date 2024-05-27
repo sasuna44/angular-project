@@ -1,0 +1,18 @@
+.cart-container{
+    background: #282d32;
+  
+    padding: 2rem;
+    border-radius: 1rem;
+    gap: 3rem;
+    color: #fff;
+}
+.item-img img{
+    width: 5rem;
+    border-radius: 1rem;
+}
+.cart-btn{
+    background: #fff;
+}
+.cart-btn:hover fa-icon{
+    color: #b02121;
+}

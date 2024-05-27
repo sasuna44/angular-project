@@ -11,13 +11,19 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditprofileComponent } from './components/editprofile/editprofile.component';
 import { OrderComponent } from './components/order/order.component';
 import { AdminGuard } from './guard/admin.guard';
+import { CartComponent } from './components/User/cart/cart.component';
 
 export const routes: Routes = [
     // loign-register-routes
 
-    // user-routes
+
+    // cart
+    {path: 'cart', component: CartComponent } ,   
+    //Product 
     {path:"home",component:HomeComponent},
-    {path: 'product/detail/:id',component:ProductDetailComponent },
+    {path: 'product/details/:id',component:ProductDetailComponent },
+
+    
     // this is for the  route
     {path:'' , redirectTo:'home', pathMatch:'full'},
     // Admin-routes     

@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService, Product } from '../../../services/product.service';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -16,10 +17,13 @@ import { Subscription } from 'rxjs';
 export class ProductsComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  selectedProduct: Product | null = null;
   sub: Subscription | null = null;
 
   constructor(private productService: ProductService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
 
   ngOnDestroy(): void {
     if (this.sub) {
@@ -27,16 +31,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-    this.loadProducts();
-  }
-
   loadProducts(): void {
-    this.sub = this.productService.getAllProducts().subscribe(
-      (data: Product[]) => {
-        this.products = data;
-        this.filteredProducts = data;
-        console.log('Products loaded:', this.products);
+    this.sub = this.productService.getProducts().subscribe(
+      (response: any) => {
+        console.log('API response:', response); // Log the full response
+        // Check if the response is an array or has a data property that is an array
+        if (Array.isArray(response)) {
+          this.products = response;
+        } else if (response.data && Array.isArray(response.data)) {
+          this.products = response.data;
+        } else {
+          console.error('Unexpected API response format:', response);
+        }
+        this.filteredProducts = [...this.products]; // Use spread operator to ensure a new array reference
+        console.log('Products loaded:', this.products); // Check the data here
       },
       (error) => {
         console.error('Error fetching products', error);
@@ -46,14 +54,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   filterProducts(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const searchTerm = target.value;
+    const searchTerm = target.value.toLowerCase();
 
     if (searchTerm) {
       this.filteredProducts = this.products.filter(product =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+        product.title.toLowerCase().includes(searchTerm)
       );
     } else {
-      this.filteredProducts = this.products;
+      this.filteredProducts = [...this.products]; // Use spread operator to ensure a new array reference
     }
   }
 
@@ -74,54 +82,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.productService.deleteProduct(id).subscribe(
         () => {
           this.products = this.products.filter(product => product.id !== id);
-          this.filterProducts(new Event('input'));
+          this.filterProducts(new Event('input')); // Refresh the filtered products
           console.log(`Product with id ${id} deleted successfully`);
         },
         (error) => {
           console.error('Error deleting product', error);
-        }
-      );
-    }
-  }
-
-  onFileSelected(event: any): void {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        if (this.selectedProduct) {
-          this.selectedProduct.image = file;
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  saveProduct(form: NgForm): void {
-    if (form.invalid) {
-      return;
-    }
-    if (this.selectedProduct) {
-      const formData = new FormData();
-      formData.append('title', this.selectedProduct.title);
-      formData.append('price', this.selectedProduct.price.toString());
-      formData.append('details', this.selectedProduct.details);
-
-      if (this.selectedProduct.image instanceof File) {
-        formData.append('image', this.selectedProduct.image);
-      } else {
-        formData.append('image', this.selectedProduct.image as string);
-      }
-
-      this.productService.updateProduct(this.selectedProduct.id, formData).subscribe(
-        () => {
-          console.log('Product updated successfully');
-          this.loadProducts();
-          // Navigate back to products list or show success message
-        },
-        (error) => {
-          console.error('Error updating product:', error);
-          // Show error message
         }
       );
     }

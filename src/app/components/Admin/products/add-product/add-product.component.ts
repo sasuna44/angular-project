@@ -12,7 +12,17 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./add-product.component.css']
 })
 export class AddProductComponent {
-  product: Product = new Product(0, "", "", 0, "", "", "");
+  product: Product = {
+    id: 0,
+    title: '',
+    image: '',
+    price: 0,
+    details: '',
+    created_at: '',
+    updated_at: '',
+    quantity: 0,
+    promotion: undefined
+  };
 
   constructor(
     private productService: ProductService,
@@ -21,18 +31,23 @@ export class AddProductComponent {
 
   addProduct(): void {
     const formData = new FormData();
-    // formData.append('id',this.product.id)
     formData.append('title', this.product.title);
     formData.append('price', this.product.price.toString());
     formData.append('details', this.product.details);
-    formData.append('image', this.product.image);
 
+    if (this.isFile(this.product.image)) {
+      formData.append('image', this.product.image);
+    }
 
-    this.productService.createProduct(formData)
-      .subscribe(createdProduct => {
-        this.product = createdProduct;
+    this.productService.createProduct(formData).subscribe(
+      createdProduct => {
         this.router.navigate(['/products']);
-      });
+      },
+      error => {
+        console.error('Error creating product:', error);
+        // Show error message to the user
+      }
+    );
   }
 
   onImgSelected(event: any): void {
@@ -40,5 +55,9 @@ export class AddProductComponent {
       const file = event.target.files[0];
       this.product.image = file;
     }
+  }
+
+  private isFile(value: any): value is File {
+    return value instanceof File;
   }
 }

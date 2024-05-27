@@ -1,0 +1,62 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "The Ordinary 1",
+      "image": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FB_POSTHOL22_T2PRODUCT_CONCRETE_FENTY_ICON_VELVET_LIQUID_LIP_OPEN_MVP_1200x1500_ea016da9-a316-4f2b-8afd-9d822277a907.jpg?v=1669934439",
+      "details": "The Ordinary Niacinamide 10% And Zinc 1% Clear 30ml",
+      "price": 450,
+      "created_at": "",
+      "updated_at": "",
+      "quantity": 3,
+      "promotion": {
+        "product": 1,
+        "discount_percentage": 30.00,
+        "start_date": "2022-05-01",
+        "end_date": "2022-05-31"
+      }
+    },
+    {
+      "id": 2,
+      "title": "The Ordinary 2",
+      "image": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FB_POSTHOL22_T2PRODUCT_CONCRETE_FENTY_ICON_VELVET_LIQUID_LIP_OPEN_MVP_1200x1500_ea016da9-a316-4f2b-8afd-9d822277a907.jpg?v=1669934439",
+      "details": "The Ordinary Niacinamide 10% And Zinc 1% Clear 30ml",
+      "price": 450,
+      "created_at": "",
+      "updated_at": "",
+      "quantity": 2,
+      "promotion": {
+        "product": 2,
+        "discount_percentage": 20.00,
+        "start_date": "2022-05-01",
+        "end_date": "2022-05-31"
+      }
+    },
+    {
+      "id": 3,
+      "title": "The Ordinary 3",
+      "image": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FB_POSTHOL22_T2PRODUCT_CONCRETE_FENTY_ICON_VELVET_LIQUID_LIP_OPEN_MVP_1200x1500_ea016da9-a316-4f2b-8afd-9d822277a907.jpg?v=1669934439",
+      "details": "The Ordinary Niacinamide 10% And Zinc 1% Clear 30ml",
+      "price": 450,
+      "created_at": "",
+      "updated_at": "",
+      "quantity": 12,
+      "promotion": {
+        "product": 1,
+        "discount_percentage": 10.00,
+        "start_date": "2022-05-01",
+        "end_date": "2022-05-31"
+      }
+    },
+    {
+      "id": 4,
+      "title": "The Ordinary",
+      "image": "https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FB_POSTHOL22_T2PRODUCT_CONCRETE_FENTY_ICON_VELVET_LIQUID_LIP_OPEN_MVP_1200x1500_ea016da9-a316-4f2b-8afd-9d822277a907.jpg?v=1669934439",
+      "details": "The Ordinary Niacinamide 10% And Zinc 1% Clear 30ml",
+      "price": 450,
+      "created_at": "",
+      "updated_at": "",
+      "quantity": 8
+    }
+  ]
+}

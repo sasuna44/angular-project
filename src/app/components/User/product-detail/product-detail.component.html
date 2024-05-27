@@ -1,28 +1,21 @@
 <div class="container my-5">
     <div class="row gx-0 align-items-start ">
+
         <div class="col-md-7">
             <div style="--swiper-navigation-color: #3e3e3e; --swiper-pagination-color: #3e3e3e" class="swiper mySwiper2">
               <div class="swiper-wrapper">
-                @for(image of product.images ; track product.id ){
-                <div class="swiper-slide">
-                      <img src="{{image}}" />
-                  </div>
-                  }
+                <div class="swiper-slide products-swiper-slider">
+                    <img src="{{product?.image}}" alt="" >
+                </div>
               </div>
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
             </div>
           <div thumbsSlider="" class="swiper mySwiper">
             <div class="swiper-wrapper gap-4">
-              @for(image of product.images ; track product.id ){
-
-              <div class="swiper-slide">     
-                
-                <img src="{{image}}" />
-                        
-              </div>
-            }
-
+                <div class="swiper-slide products-swiper-slider">
+                    <img src="{{product?.image}}" alt="" >
+                </div>
             </div>
           </div>
         </div>
@@ -30,20 +23,21 @@
             <div class="product-description-section px-2 text-capitalize text-light ">
                 <div class="prodcut-description-data d-flex flex-column justify-content-evenly gap-4 p-5">
                     <div class="product-description-info">
-                        <h1 class="product-description-h1 fw-bold">{{product.title}}</h1>
-                        <p>{{product.details}}</p>
+                        <h1 class="product-description-h1 fw-bold">{{product?.title}}</h1>
+                        <p>{{product?.details}}</p>
                     </div>
                     <div class="product-description-pricing d-flex align-items-center">
                         <span>price : </span>
-                        <strong class="mx-2" >{{product.price}}</strong>
+                        <strong class="mx-2" >{{product?.price}}</strong>
                         <sub class="ms-1">inclusive of VAT</sub>
                     </div>
                     <div class="product-description-amount">
                         <span >Amount</span>
+
                         <select class="mx-2" name="" id="">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
+                            @for(quantity of quantities ; track $index){
+                                <option value="{{quantity}}"> {{quantity}}</option>
+                            }
                         </select>
                     </div>
                    

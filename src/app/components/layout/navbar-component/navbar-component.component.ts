@@ -3,12 +3,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSignInAlt, faHeart, faShoppingCart, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductService, Product } from '../../../services/product.service'; // تأكد من مسار الاستيراد
+import { ProductService, Product } from '../../../services/product.service'; 
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule, FormsModule],
+  imports: [FontAwesomeModule, CommonModule, FormsModule,RouterLink],
   templateUrl: './navbar-component.component.html',
   styleUrls: ['./navbar-component.component.css']
 })
@@ -21,14 +22,16 @@ export class NavbarComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService ) {}
 
   ngOnInit(): void {
-    this.productService.getAllProducts().subscribe((data: Product[]) => {
+    this.productService. getProducts().subscribe((data: Product[]) => {
       this.products = data;
       this.filteredProducts = data;
     });
   }
+  
+ 
 
  
 }
