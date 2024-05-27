@@ -21,7 +21,7 @@ body{
   padding: 15px;
   box-sizing: border-box;
   overflow-y: auto;
-  margin-left: 250px; /* Adjust for sidebar width */
+  margin-left: 180px; /* Adjust for sidebar width */
 }
 
 @media (max-width: 768px) {

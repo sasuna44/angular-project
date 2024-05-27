@@ -21,34 +21,34 @@ export interface Product {
 }
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ProductService {
-    //private apiUrl = 'http://localhost:8000/products'; 
-    private apiUrl = 'http://localhost:3000/products'; 
+  private baseurl = 'http://127.0.0.1:8000/api/products';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-    getProducts(): Observable<Product[]> {
-        return this.http.get<Product[]>(this.apiUrl);
-    }
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.baseurl);
+  }
+  
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseurl}/${id}`);
+  }
 
-    getProductById(id: number): Observable<Product> {
-        return this.http.get<Product>(`${this.apiUrl}/${id}`);
-    }
+  createProduct(formData: FormData): Observable<Product> {
+    return this.http.post<Product>(this.baseurl, formData);
+  }
 
-    updateProduct(id: number, formData: FormData): Observable<any> {
-        return this.http.put(`${this.apiUrl}/${id}`, formData);
-    }
-    
-    addProduct(productData: FormData): Observable<any> {
-        return this.http.post<any>(this.apiUrl, productData);
-    }
+  updateProduct(id: number, formData: FormData): Observable<Product> {
+    return this.http.put<Product>(`${this.baseurl}/${id}`, formData);
+  }
 
-    deleteProduct(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseurl}/${id}`);
+  }
 
-
-   
+  getImageUrl(): Observable<string> {
+    return this.http.get<string>(this.baseurl);
+  }
 }

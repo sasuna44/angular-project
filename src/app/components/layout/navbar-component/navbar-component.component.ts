@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
   constructor(private productService: ProductService ) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe((data: Product[]) => {
+    this.productService. getProducts().subscribe((data: Product[]) => {
       this.products = data;
       this.filteredProducts = data;
     });

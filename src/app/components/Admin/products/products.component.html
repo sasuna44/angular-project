@@ -1,39 +1,31 @@
-<section id="products" class="container">
-    <h1 class="text-center my-5 fw-bold">All Products</h1>
-    <div class="row mb-3 align-items-center">
-      <div class="col-md-4">
-        <button class="add-product btn btn-primary" (click)="addProduct()">Add Product</button>
-      </div>
-      <div class="col-md-8 text-end">
-        <input class="form-control"  type="text" placeholder="Search by Product Name" (input)="filterProducts($event)">
-      </div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Products</h2>
+      <input type="text" class="form-control mb-3" (input)="filterProducts($event)" placeholder="Search products...">
+      <button class="btn btn-primary mb-3" (click)="addProduct()">Add Product</button>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of filteredProducts">
+            <td>{{ product.id }}</td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.price }}</td>
+            <td>
+              <button class="btn btn-info" (click)="viewProduct(product.id)">View</button>
+              <button class="btn btn-warning" (click)="editProduct(product.id)">Edit</button>
+              <button class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table *ngIf="filteredProducts && filteredProducts.length > 0" class="table">
-      <thead>
-        <tr>
-          <th>Product ID</th>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Image</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of filteredProducts">
-          <td>{{ product.id }}</td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.price }}</td>
-          <td><img [src]="product.image" alt="{{ product.title }}" style="width: 50px; height: 50px;"></td>
-          <td class="actions">
-            <button class="view-product btn btn-info" (click)="viewProduct(product.id)">View</button>
-            <button class="edit-product btn btn-warning" (click)="editProduct(product.id)">Edit</button>
-            <button class="delete-product btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div *ngIf="filteredProducts && filteredProducts.length === 0">
-      <p>No products found.</p>
-    </div>
-  </section>
-  
+  </div>
+</div>

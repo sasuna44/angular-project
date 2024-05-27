@@ -1,0 +1,26 @@
+.navbar {
+    background-color: #f8f9fa; /* يمكنك تغيير اللون حسب الحاجة */
+    
+  }
+  .form-control {
+    width: 300px; /* تعديل عرض حقل البحث */
+  }
+  .nav-link {
+    color: #495057;
+  }
+  .nav-link:hover {
+    color: #0056b3;
+  }
+  .navbar-brand {
+    font-weight: bold;
+  }
+  .navbar-toggler {
+    border: none;
+  }
+  .dropdown-toggle::after {
+    margin-left: .255em;
+  }
+  .dropdown-menu {
+    min-width: 150px; /* تعديل عرض القائمة المنسدلة */
+  }
+  

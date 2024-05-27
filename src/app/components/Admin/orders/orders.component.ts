@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
 export class OrdersComponent implements OnInit {
     orders: Order[] = [];
     filterTerm: 'pending' | 'accepted' | 'rejected' | 'all' = 'all';
-    userId: number = 1; // Example userId, you should set it appropriately
 
     constructor(private orderService: OrderService) {}
 
@@ -30,18 +29,6 @@ export class OrdersComponent implements OnInit {
             },
             (error: any) => {
                 console.error('Error fetching orders', error);
-            }
-        );
-    }
-
-    loadOrdersByUserId(): void {
-        this.orderService.getOrdersByUserId(this.userId).subscribe(
-            (data: Order[]) => {
-                this.orders = data;
-                console.log(`Orders for user ${this.userId} loaded:`, this.orders);
-            },
-            (error: any) => {
-                console.error(`Error fetching orders for user ${this.userId}`, error);
             }
         );
     }

@@ -1,8 +1,12 @@
 <!-- layout/sidebar.component.html -->
-<div class="sidebar">
+<div class="sidebar" >
   <ul>
+    <li><a routerLink="/home" routerLinkActive="active-link"><fa-icon [icon]="faTachometerAlt"></fa-icon> Home</a></li>
     <li><a routerLink="/admin/dashboard" routerLinkActive="active-link"><fa-icon [icon]="faTachometerAlt"></fa-icon> Dashboard</a></li>
     <li><a routerLink="/admin/products" routerLinkActive="active-link"><fa-icon [icon]="faBoxOpen"></fa-icon> Products</a></li>
     <li><a routerLink="/admin/orders" routerLinkActive="active-link"><fa-icon [icon]="faShoppingCart"></fa-icon> Orders</a></li>
+    <!-- <li class="nav-item">
+      <button class="btn nav-link" (click)="signOut()">Sign Out</button>
+    </li> -->
   </ul>
 </div>

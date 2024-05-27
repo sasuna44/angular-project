@@ -1,54 +1,63 @@
-// add-product.component.ts
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProductService } from '../../../../services/product.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProductService, Product } from '../../../../services/product.service';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.css']
 })
-export class AddProductComponent implements OnInit {
-  addProductForm: FormGroup;
+export class AddProductComponent {
+  product: Product = {
+    id: 0,
+    title: '',
+    image: '',
+    price: 0,
+    details: '',
+    created_at: '',
+    updated_at: '',
+    quantity: 0,
+    promotion: undefined
+  };
 
   constructor(
-    private fb: FormBuilder,
     private productService: ProductService,
     private router: Router
-  ) {
-    this.addProductForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      image: [null, Validators.required],
-      price: [0, [Validators.required, Validators.min(0)]],
-      details: ['', Validators.maxLength(500)]
-    });
-  }
+  ) {}
 
-  ngOnInit(): void {}
+  addProduct(): void {
+    const formData = new FormData();
+    formData.append('title', this.product.title);
+    formData.append('price', this.product.price.toString());
+    formData.append('details', this.product.details);
 
-  handleFileInput(event: any): void {
-    const file = event.target.files[0];
-    this.addProductForm.patchValue({
-      image: file
-    });
-    this.addProductForm.get('image')!.updateValueAndValidity();
-  }
-
-  onSubmit(): void {
-    if (this.addProductForm.valid) {
-      const formData = new FormData();
-      formData.append('title', this.addProductForm.get('title')!.value);
-      formData.append('image', this.addProductForm.get('image')!.value);
-      formData.append('price', this.addProductForm.get('price')!.value.toString());
-      formData.append('details', this.addProductForm.get('details')!.value);
-
-      this.productService.addProduct(formData).subscribe(() => {
-        this.router.navigate(['/products']);
-      });
+    if (this.isFile(this.product.image)) {
+      formData.append('image', this.product.image);
     }
+
+    this.productService.createProduct(formData).subscribe(
+      createdProduct => {
+        this.router.navigate(['/products']);
+      },
+      error => {
+        console.error('Error creating product:', error);
+        // Show error message to the user
+      }
+    );
+  }
+
+  onImgSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.product.image = file;
+    }
+  }
+
+  private isFile(value: any): value is File {
+    return value instanceof File;
   }
 }
