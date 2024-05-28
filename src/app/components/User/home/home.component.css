@@ -4,11 +4,11 @@
     font-weight: 500;
     text-transform: uppercase;
 }
-.hero-left-container{
+.home-container{
     background-color: #282d32;
 }
 .slider-container-hero{
-    height: 20rem;
+    height: 35rem;
     background-position: center;
     background-size: cover;
 }

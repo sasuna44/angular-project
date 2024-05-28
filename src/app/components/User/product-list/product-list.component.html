@@ -49,13 +49,12 @@
                               <div class="products-info d-flex flex-column my-2">
                                 <span class="my-2 fw-bold">{{ product.details }}</span>
                                 <div class="products-price d-flex align-items-center">
-                                  <span class="me-2">EGP</span>
-                                  <strong class="fs-4">{{ product.price }}</strong>
+                                  <span class="me-2">Price</span>
+                                  <strong class="fs-4">{{ product.price }} EGP</strong>
                                 </div>
                               </div>
                               <div class="add-cart text-center d-flex justify-content-around my-3">
                                 <button class="btn btn-primary" [routerLink]="['/products/', product.id]">View Details</button>
-                                <button class="btn btn-primary" >Add To Cart</button>
                               </div>
 
                             </div>

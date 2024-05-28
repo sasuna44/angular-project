@@ -1,0 +1,12 @@
+.checkout-container{
+    background-color: rgb(40, 45, 50);
+}
+.order-item{
+    background-color: #fff;
+    border-radius: 1rem;
+
+}
+.order-image img{
+    width: 5rem;
+    border-radius: 1rem;
+}

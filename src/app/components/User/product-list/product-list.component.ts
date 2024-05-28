@@ -16,6 +16,8 @@ export class ProductListComponent implements OnInit , OnDestroy {
   products: Product[] = []; 
   sub:Subscription|null = null;
   // filteredProducts:Product[] = [];
+  user_id = localStorage.getItem('id');
+
   constructor( private cartService: CartService , private productService :ProductService) {
   }
   ngOnInit(): void {

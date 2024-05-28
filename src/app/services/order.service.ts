@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Product } from './product.service';
 
 export interface Order {
     id: number;
-    user_id: number;
-    username: string;
-    date: string;
-    img: string;
-    total_price: number;
-    status: 'pending' | 'accepted' | 'rejected';
-    products: {
-        id: number;
-        title: string;
-        price: number;
-        quantity: number;
-    }[];
+    order_id: number;
+    product_id: number;
+    quantity: number;
+    price: number;
+    status: string;
+ }
+ export interface OrderItem {
+    id: number;
+    order_id: number;
+    product_id: number;
+    quantity: number;
+    price: number;
+    created_at: string;
+    updated_at: string;
+    product: Product;
 }
+
 
 @Injectable({
     providedIn: 'root'
@@ -33,13 +38,18 @@ export class OrderService {
     getDetailedOrders(): Observable<Order[]> {
         return this.http.get<Order[]>(`${this.apiUrl}/orders-with-details`);
     }
-
     getOrderById(id: number): Observable<Order> {
         return this.http.get<Order>(`${this.apiUrl}/order/${id}`);
     }
-    getOrderItems(id: number): Observable<Order> {
-        return this.http.get<Order>(`${this.apiUrl}/order-items/${id}`);
-    }
+    getOrderItems(id: number): Observable<OrderItem[]> {
+        console.log(`${this.apiUrl}/order-items/${id}`)
+        return this.http.get<OrderItem[]>(`${this.apiUrl}/order-items/${id}`);   
+     }
+     deleteOrderItem(id:number):Observable<OrderItem[]>{
+        console.log(`${this.apiUrl}/order-items/${id}`)
+        return this.http.delete<OrderItem[]>(`${this.apiUrl}/order-items/${id}`);   
+
+     }
 // yara you will need to edit this part like the above /order for orders and /order-items for order-items 
 
     getOrdersByUserId(userId: number): Observable<Order[]> {

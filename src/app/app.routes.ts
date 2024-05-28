@@ -25,6 +25,15 @@ export const routes: Routes = [
           { path: 'orders/:id', component: OrderComponent },
       ]
   },
+    
+    {path: 'cart', component: CartComponent } ,   
+    //Product 
+    {path:"home",component:HomeComponent},
+    {path: 'products/:id',component:ProductDetailComponent },
+
+    
+    // this is for the  route
+    {path:'' , redirectTo:'home', pathMatch:'full'},
   { path: 'login', component: LoginComponent }, 
   { path: 'register', component: RegisterComponent },
   { path: 'admin', component: LayoutComponent, children: ADMIN_ROUTES },

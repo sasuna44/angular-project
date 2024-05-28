@@ -7,6 +7,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { OrderComponent } from '../order/order.component';
 import { Product } from '../../../services/product.service';
+import { Order, OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -19,12 +20,19 @@ export class CartComponent implements OnInit, OnDestroy {
   faTrashAlt = faTrashAlt;
   sub: Subscription | null = null;
   cartId: number = 0;
-  user_id = 1;
+  user_id: number  = 0;
   cart: CartItem[] = [];
+  order:Order |null = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private cartService: CartService) {}
+  constructor(private activatedRoute: ActivatedRoute, private cartService: CartService , private orderService :OrderService)   {}
 
   ngOnInit(): void {
+    const storedUserId = localStorage.getItem('user_id');
+    if (storedUserId) {
+      this.user_id = parseInt(storedUserId, 10); 
+    }
+    console.log(this.user_id);
+    console.log(storedUserId);
     this.sub = 
       this.cartService.getCartByUserId(this.user_id).subscribe(items =>{
         // console.log(items);
@@ -35,6 +43,9 @@ export class CartComponent implements OnInit, OnDestroy {
           this.cart = items;
         });
       })
+      // this.sub = this.orderService.createOrder(order).subscribe(data => {
+      //   console.log(data);
+      // } 
   }
 
   ngOnDestroy(): void {

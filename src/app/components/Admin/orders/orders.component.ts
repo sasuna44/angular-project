@@ -37,12 +37,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
         return this.orders.filter(order => order.status === this.filterTerm);
     }
 
-    getProductTitles(order: Order): string {
-        if (order.products && order.products.length > 0) {
-            return order.products.map(product => product.title).join(', ');
-        }
-        return 'No Products';
-    }
+    // getProductTitles(order: Order): string {
+    //     if (order.products && order.products.length > 0) {
+    //         return order.products.map(product => product.title).join(', ');
+    //     }
+    //     return 'No Products';
+    // }
 
     updateOrderStatus(id: number, status: 'accepted' | 'rejected'): void {
         this.orderService.updateOrderStatus(id, status).subscribe(

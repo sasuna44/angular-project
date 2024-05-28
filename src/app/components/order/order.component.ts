@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-order',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Ensure RouterModule is imported here
+  imports: [CommonModule, RouterModule],
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })

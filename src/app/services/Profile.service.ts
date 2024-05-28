@@ -47,5 +47,7 @@ export class ProfileService {
    removeTokenFromLocalStorage(): void {
     localStorage.removeItem('token');
   }
-  
+  removeUserFromLocalStorage(): void {
+    localStorage.removeItem('id');
+  }
 }

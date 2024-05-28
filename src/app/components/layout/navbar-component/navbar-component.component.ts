@@ -42,6 +42,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['']);
     this.isLoggedIn = true;
     this.profileService.removeTokenFromLocalStorage();
+    this.profileService.removeUserFromLocalStorage();
   }
   login(): void {
     this.isLoggedIn = false;
