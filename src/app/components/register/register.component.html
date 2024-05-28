@@ -33,6 +33,13 @@
           </div>
         </div>
         <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" id="confirmPassword" [(ngModel)]="user.confirmPassword" name="confirmPassword" required minlength="6" >
+          <div *ngIf="password !== confirmPassword" class="error-message">
+            Passwords do not match.
+          </div>
+        </div>
+        <div class="mb-3">
           <label for="gender" class="form-label">Gender</label>
           <select id="gender" class="form-select" [(ngModel)]="user.gender" name="gender" required>
             <option value="male">Male</option>

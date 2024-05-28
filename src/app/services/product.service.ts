@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 
 export interface Promotion {
@@ -25,7 +25,7 @@ export interface Product {
 })
 export class ProductService {
   private baseurl = 'http://127.0.0.1:8000/api/products';
-
+ 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
@@ -36,8 +36,11 @@ export class ProductService {
     return this.http.get<Product>(`${this.baseurl}/${id}`);
   }
 
-  createProduct(formData: FormData): Observable<Product> {
-    return this.http.post<Product>(this.baseurl, formData);
+  createProduct(formData: FormData,token: string): Observable<Product> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<Product>(this.baseurl, formData,{ headers });
   }
 
   updateProduct(id: number, formData: FormData): Observable<Product> {

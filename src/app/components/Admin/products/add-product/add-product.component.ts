@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService, Product } from '../../../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Loginservice } from '../../../../services/Login.service';
 
 @Component({
   selector: 'app-add-product',
@@ -11,7 +12,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.css']
 })
-export class AddProductComponent {
+export class AddProductComponent implements OnInit {
+  token: string | null = null;
   product: Product = {
     id: 0,
     title: '',
@@ -26,10 +28,21 @@ export class AddProductComponent {
 
   constructor(
     private productService: ProductService,
-    private router: Router
+    private router: Router,
+    private Loginservice: Loginservice
   ) {}
 
+  ngOnInit(): void {
+    this.token = this.Loginservice.getTokenFromLocalStorage();
+    console.log(this.token);
+  }
+
   addProduct(): void {
+    if (!this.token) {
+      console.error('No token found. Cannot create product.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', this.product.title);
     formData.append('price', this.product.price.toString());
@@ -39,7 +52,7 @@ export class AddProductComponent {
       formData.append('image', this.product.image);
     }
 
-    this.productService.createProduct(formData).subscribe(
+    this.productService.createProduct(formData, this.token).subscribe(
       createdProduct => {
         this.router.navigate(['/products']);
       },

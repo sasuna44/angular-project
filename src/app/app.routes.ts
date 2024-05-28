@@ -2,43 +2,32 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/User/home/home.component'
 import { ProductDetailComponent } from './components/User/product-detail/product-detail.component'
 import { provideRouter } from '@angular/router';
-import { LayoutComponent } from './components/admin/layout/layout.component';
-import { ADMIN_ROUTES } from './components/admin/admin.routes';
+import { LayoutComponent } from './components/Admin/layout/layout.component';
+import { ADMIN_ROUTES } from './components/Admin/admin.routes';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guard/guard.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditprofileComponent } from './components/editprofile/editprofile.component';
 import { OrderComponent } from './components/order/order.component';
-import { AdminGuard } from './guard/admin.guard';
+import { NavbarComponent } from './components/layout/navbar-component/navbar-component.component';
 import { CartComponent } from './components/User/cart/cart.component';
-
 export const routes: Routes = [
-    // loign-register-routes
-
-
-    // cart
-    {path: 'cart', component: CartComponent } ,   
-    //Product 
-    {path:"home",component:HomeComponent},
-    {path: 'products/:id',component:ProductDetailComponent },
-
-    
-    // this is for the  route
-    {path:'' , redirectTo:'home', pathMatch:'full'},
-    // Admin-routes     
-    {
-        path: 'admin',
-        component: LayoutComponent,
-        // canActivate: [AdminGuard],
-        children: ADMIN_ROUTES
-      },
-      {path:"login",component:LoginComponent},
-      {path:"register",component:RegisterComponent},
-      { path: 'profile/:id', component:ProfileComponent  },
-      { path: 'edit/:id', component:EditprofileComponent  },
-      { path: 'orders/:id', component: OrderComponent },
-      { path: '**', redirectTo: '/login' }
-
+  {
+      path: '',
+      component: NavbarComponent, 
+      children: [
+          { path: '', component: HomeComponent },
+          {path: 'cart', component: CartComponent } , 
+          {path: 'products/:id',component:ProductDetailComponent },
+          { path: 'admin', component: LayoutComponent, children: ADMIN_ROUTES },
+          { path: 'profile/:id', component: ProfileComponent },
+          { path: 'edit/:id', component: EditprofileComponent },
+          { path: 'orders/:id', component: OrderComponent },
+      ]
+  },
+  { path: 'login', component: LoginComponent }, 
+  { path: 'register', component: RegisterComponent } 
 ];
+
 export const APP_ROUTES = provideRouter(routes);

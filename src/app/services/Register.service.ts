@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Auth } from '../models/Register.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/users'; 
-  private tokenKey = 'token'
+  private apiUrl = 'http://127.0.0.1:8000/api/auth/register'; 
+
   constructor(private http: HttpClient) {}
 
   register(formData: FormData): Observable<Auth> {
-    return this.http.post<Auth>(`${this.apiUrl}`, formData);
+    return this.http.post<Auth>(this.apiUrl, formData).pipe(
+      catchError(this.handleError)
+    );
   }
-  getTokenFromLocalStorage(): string | null {
-    console.log(localStorage.getItem(this.tokenKey) )
-    return localStorage.getItem(this.tokenKey); 
-  }
-  getCurrentUser(): string | null {
-    return localStorage.getItem('id'); 
+
+  private handleError(error: any): Observable<never> {
+    console.error('AuthService error:', error);
+    throw error;
   }
 }

@@ -14,14 +14,6 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" [(ngModel)]="user.password" #password="ngModel" required minlength="6">
-              <div *ngIf="EditForm.submitted && password.invalid" class="error-message">
-                <div *ngIf="password.errors">Password is required.</div>
-                <div *ngIf="password.errors">Password must be at least 6 characters long.</div>
-              </div>
-            </div>
-            <div class="form-group">
               <label for="gender">Gender</label>
               <select id="gender" name="gender" [(ngModel)]="user.gender" #gender="ngModel" required>
                 <option value="male">Male</option>
@@ -47,7 +39,7 @@
         <div class="profile-edit-right">
           <h2>Profile Picture</h2>
           <div class="profile-image">
-            <img [src]="user.image" alt="Profile Image" *ngIf="user.image">
+            <img [src]="fileData" alt="Profile Image" *ngIf="user.image">
           </div>
         </div>
       </div>

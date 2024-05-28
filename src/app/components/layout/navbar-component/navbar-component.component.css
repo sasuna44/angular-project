@@ -12,7 +12,9 @@
     color: #faea3c;
 
   }
-  
+  a{
+    cursor: pointer;
+  }
   .form-control {
     width: 300px;
   }
