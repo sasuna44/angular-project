@@ -25,7 +25,7 @@ export class ViewProductComponent implements OnInit {
       this.productService.getProductById(+productId).subscribe(
         (response: any) => {
           if (response.status === 'success') {
-            this.product = response.data;  
+            this.product = response.data;
             console.log(this.product);
           } else {
             console.error('Error fetching product', response);

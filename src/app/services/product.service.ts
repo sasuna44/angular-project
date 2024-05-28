@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, catchError, throwError } from 'rxjs';
 
 export interface Promotion {
     id: number;
@@ -32,9 +32,9 @@ export class ProductService {
     return this.http.get<Product[]>(this.baseurl);
   }
   
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.baseurl}/${id}`);
-  }
+  // getProductById(id: number): Observable<Product> {
+  //   return this.http.get<Product>(`${this.baseurl}/${id}`);
+  // }
 
   createProduct(formData: FormData,token: string): Observable<Product> {
     const headers = new HttpHeaders({
@@ -43,9 +43,6 @@ export class ProductService {
     return this.http.post<Product>(this.baseurl, formData,{ headers });
   }
 
-  updateProduct(id: number, formData: FormData): Observable<Product> {
-    return this.http.put<Product>(`${this.baseurl}/${id}`, formData);
-  }
 
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseurl}/${id}`);
@@ -53,5 +50,32 @@ export class ProductService {
 
   getImageUrl(): Observable<string> {
     return this.http.get<string>(this.baseurl);
+  }
+
+  getProductById(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseurl}/${productId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateProduct(productId: number, formData: FormData): Observable<Product> {
+    const token = this.getTokenFromLocalStorage();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+    return this.http.put<Product>(`${this.baseurl}/${productId}`, formData, { headers }).pipe(
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('ProductService error:', error);
+    throw error;
+  }
+
+  getTokenFromLocalStorage(): string | null {
+    return localStorage.getItem('token');
   }
 }

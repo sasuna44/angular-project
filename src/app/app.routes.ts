@@ -20,14 +20,14 @@ export const routes: Routes = [
           { path: '', component: HomeComponent },
           {path: 'cart', component: CartComponent } , 
           {path: 'products/:id',component:ProductDetailComponent },
-          { path: 'admin', component: LayoutComponent, children: ADMIN_ROUTES },
           { path: 'profile/:id', component: ProfileComponent },
           { path: 'edit/:id', component: EditprofileComponent },
           { path: 'orders/:id', component: OrderComponent },
       ]
   },
   { path: 'login', component: LoginComponent }, 
-  { path: 'register', component: RegisterComponent } 
+  { path: 'register', component: RegisterComponent },
+  { path: 'admin', component: LayoutComponent, children: ADMIN_ROUTES },
 ];
 
 export const APP_ROUTES = provideRouter(routes);
