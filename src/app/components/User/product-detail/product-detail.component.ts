@@ -20,10 +20,10 @@ export class ProductDetailComponent implements OnInit  , OnDestroy{
 
   ngOnInit(): void {
     this.sub = this.activeRoute.params.subscribe(params => {
-
-      this.productService.getProductById(params['id']).subscribe(data => {
-        this.product = data; 
-        this.quantities = Array.from({length: data.quantity},(_, i) => i + 1);
+      this.productService.getProductById(params['id']).subscribe((response:any ) => {
+          this.product = response.data;
+          console.log("infp:"+response.data);
+        
       });
     });
   }

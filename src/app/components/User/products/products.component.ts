@@ -6,6 +6,7 @@ import { Product, ProductService } from '../../../services/product.service';
 import { Subscription, pipe } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Cart, CartItem, CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -16,9 +17,12 @@ import { RouterLink } from '@angular/router';
 })
 
 export class ProductsComponent implements AfterViewInit , OnInit , OnDestroy {
-  constructor( private productService :ProductService) {}
+  constructor( private productService :ProductService , private cartService : CartService) {}
   products: Product[] = []; 
-  sub:Subscription|null = null;
+  private sub: Subscription = new Subscription();
+    cart :Cart |null = null ;
+  user_id :number = 2 ;
+  cart_id = 1;
   ngAfterViewInit(): void {
     // const productsSwiper = new Swiper('.products-swiper', {
     //   pagination: {
@@ -45,8 +49,15 @@ export class ProductsComponent implements AfterViewInit , OnInit , OnDestroy {
     // });
   }
   ngOnInit(): void {
-    this.sub = this.productService.getProducts().subscribe(prodcuts => this.products = prodcuts);
+    this.sub = this.productService.getProducts().subscribe(
+      (response: any) => {
+          this.products = response.data;
+          console.log(this.products);
+        } 
 
+    );
+   this.cartFun(this.user_id);
+  
   }
 
   ngOnDestroy(): void {
@@ -54,7 +65,48 @@ export class ProductsComponent implements AfterViewInit , OnInit , OnDestroy {
       this.sub.unsubscribe();
     }
   }
+  cartFun(user_id : number){
+    // this.sub?.add(
+    //   // this.cartService.getOrCreateCart(user_id).subscribe(cart =>{
 
-  faPlus  = faPlus ;
+    //   //   this.cart = cart ;
+    //   //   this.cartItems(cart.id)
+    //   // }))
+  }
+  cartItems(cartId : number){
+    this.sub?.add(
+      this.cartService.getCartItems(cartId).subscribe(items =>{
+        console.log(items);
+      })
+    )
+  }
+  addItemToCart(product: Product, quantity: number = 1): void {
+    // if (this.cart) {
+    //   const cartItem: CartItem = {
+    //     cart_id: this.cart.id,
+    //     product_id: product.id,
+    //     title: product.title,
+    //     image: product.image,
+    //     details: product.details,
+    //     price: product.price,
+    //     quantity: quantity,
+    //     promotion : product?.promotion
+    //   };
+    //   this.sub?.add(
+    //     this.cartService.addCartItem(cartItem).subscribe(() => {
+    //       this.cartItems(this.cart!.id);
+    //     })
+    //   );
+    // }
+  }
 
+  removeItemFromCart(cartItemId: number): void {
+  //   this.sub?.add(
+  //     this.cartService.deleteCartItem(cartItemId).subscribe(() => {
+  //       this.cartItems = this.cartItems.filter(item => item.id !== cartItemId); 
+      
+  //     })
+  //   );
+  // }
+  }
 }

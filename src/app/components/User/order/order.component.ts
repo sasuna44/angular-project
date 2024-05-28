@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-order',
@@ -7,6 +9,21 @@ import { Component } from '@angular/core';
   templateUrl: './order.component.html',
   styleUrl: './order.component.css'
 })
-export class OrderComponent {
+export class OrderComponent  implements OnInit , OnDestroy{
+  sub :Subscription |null = null;
+  order_id : number | null = null;
+  constructor(private orderService : OrderService) { }
+  ngOnInit(): void {
+    this.sub = this.orderService.getOrders().subscribe(data => {
+      // console.log("order :" , data);
+      this.order_id = data[0].id;
+      // console.log("order id :", this.order_id);
+      this.sub = this.orderService.getOrderById(this.order_id).subscribe(data =>{
+      })
+    }
+    )
+  }
+  ngOnDestroy(): void {
 
+  }
 }

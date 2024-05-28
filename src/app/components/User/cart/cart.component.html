@@ -8,14 +8,14 @@
             @for(item of cart ; track $index){
               <div class="cart-container d-flex justify-content-evenly align-items-center my-4">
                 <div class="item-img">
-                    <img src="{{item.image}}" alt="{{item.title}}">
+                    <img src="{{item.product.image}}" alt="{{item.product.title}}">
                 </div>
                 <div class="item-details text-capitalize">
-                <h3 class="fw-bold">{{ item.title }}</h3>
-                <p>{{ item.details }}</p>
+                <h3 class="fw-bold">{{ item.product.title }}</h3>
+                <p>{{ item.product.details }}</p>
                 <div class="item-info d-felx ">
-                    <h5>Price : <span>{{ item.price }}</span> </h5>
-                    it will be replace with select to get the remaning quantity 
+                    <h5>Price : <span>{{ item.product.price }}</span> </h5>
+                    <!-- it will be replace with select to get the remaning quantity  -->
                     <h5>Quntity : <span>{{ item.quantity }}</span></h5>
                 </div>
                 </div>

@@ -15,6 +15,7 @@
             </select>
     </div> -->
   <div class="row">
+    
             @for (product of products  ;track $index){
                 <div class="col-md-4 my-3" >
                       <div class="d-flex flex-column">
@@ -22,7 +23,7 @@
                           <div class="products-tags d-flex flex-row justify-content-between align-items-center">
                             @if(product.promotion){
                               <div class="products-tag">
-                                <span class="fw-bolder" >{{ product.promotion.discount_percentage}}%</span>
+                                <span class="fw-bolder">{{ product?.promotion?.discount_percentage |number : '1.0' }}%</span>
                               </div>
                             }
                           </div>
@@ -53,7 +54,7 @@
                                 </div>
                               </div>
                               <div class="add-cart text-center d-flex justify-content-around my-3">
-                                <button class="btn btn-primary" [routerLink]="['/product/details', product.id]">View Details</button>
+                                <button class="btn btn-primary" [routerLink]="['/products/', product.id]">View Details</button>
                                 <button class="btn btn-primary" >Add To Cart</button>
                               </div>
 

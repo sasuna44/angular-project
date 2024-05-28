@@ -25,7 +25,7 @@ export class ViewProductComponent implements OnInit {
       this.productService.getProductById(+productId).subscribe(
         (data: Product) => {
           this.product = data;
-          console.log('Product data:', this.product); // تأكد من عرض البيانات في الكونسول
+          console.log('Product data:', this.product); 
         },
         (error) => {
           console.error('Error fetching product', error);

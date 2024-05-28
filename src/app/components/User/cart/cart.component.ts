@@ -18,15 +18,23 @@ import { Product } from '../../../services/product.service';
 export class CartComponent implements OnInit, OnDestroy {
   faTrashAlt = faTrashAlt;
   sub: Subscription | null = null;
-  cartId: number = 1;
+  cartId: number = 0;
+  user_id = 1;
   cart: CartItem[] = [];
 
   constructor(private activatedRoute: ActivatedRoute, private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.sub = this.cartService.getCartById(this.cartId).subscribe(data => {
-      this.cart = data.items.map(item => ({ ...item, cartId: this.cartId }));    
-    });
+    this.sub = 
+      this.cartService.getCartByUserId(this.user_id).subscribe(items =>{
+        // console.log(items);
+        this.cartId = items[0].id;
+        this.sub = this.cartService.getCartItems(this.cartId).subscribe(items => {
+          console.log(this,this.cartId);
+          console.log(items);
+          this.cart = items;
+        });
+      })
   }
 
   ngOnDestroy(): void {
@@ -37,7 +45,7 @@ export class CartComponent implements OnInit, OnDestroy {
     if (this.cart) {
       this.cart = this.cart.filter(item => item.product_id !== productId);
       
-      this.cartService.deleteCartItem(cartId, productId).subscribe({
+      this.cartService.deleteCartItem(cartId).subscribe({
         next: () => {
           console.log('this item has been deleted .');
         },
