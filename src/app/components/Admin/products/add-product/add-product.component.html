@@ -2,24 +2,39 @@
   <div class="row">
     <div class="col-md-8">
       <h2>Add Product</h2>
-      <form>
+      <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm" class="needs-validation" novalidate>
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" [(ngModel)]="product.title" name="title" required>
+          <input type="text" class="form-control" id="title" [(ngModel)]="product.title" name="title" required minlength="3">
+          <div *ngIf="productForm.submitted && productForm.controls['title']?.invalid" class="error-message">
+            <small class="text-danger" *ngIf="productForm.controls['title']?.errors?.['required']">Title is required.</small>
+            <small class="text-danger" *ngIf="productForm.controls['title']?.errors?.['minlength']">Title must be at least 3 characters long.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="price">Price</label>
           <input type="number" class="form-control" id="price" [(ngModel)]="product.price" name="price" required>
+          <div *ngIf="productForm.submitted && productForm.controls['price']?.invalid" class="error-message">
+            <small class="text-danger" *ngIf="productForm.controls['price']?.errors?.['required']">Price is required.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="details">Details</label>
-          <textarea class="form-control" id="details" [(ngModel)]="product.details" name="details"></textarea>
+          <textarea class="form-control" id="details" [(ngModel)]="product.details" name="details" required minlength="10"></textarea>
+          <div *ngIf="productForm.submitted && productForm.controls['details']?.invalid" class="error-message">
+            <small class="text-danger" *ngIf="productForm.controls['details']?.errors?.['required']">Details are required.</small>
+            <small class="text-danger" *ngIf="productForm.controls['details']?.errors?.['minlength']">Details must be at least 10 characters long.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="image">Image</label>
-          <input type="file" (change)="onImgSelected($event)" class="form-control" id="image" name="image" required>
+          <input type="file" id="image" (change)="onFileSelected($event)" name="image" accept="image/*" required>
+          <div *ngIf="productForm.submitted && !selectedFile" class="error-message">
+            <small class="text-danger">Please select an image file.</small>
+          </div>
         </div>
-        <button type="button" class="btn btn-primary" (click)="addProduct()">Add Product</button>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <button type="submit" class="btn btn-primary">Add Product</button>
       </form>
     </div>
   </div>

@@ -1,74 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrderService, Order } from '../../../services/order.service';
-import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-orders',
     standalone: true,
-    imports: [RouterLink, FormsModule, CommonModule],
+    imports: [FormsModule, CommonModule],
     templateUrl: './orders.component.html',
     styleUrls: ['./orders.component.css']
 })
-export class OrdersComponent implements OnInit {
-    orders :any [] = [];
-    filterTerm: 'pending' | 'accepted' | 'rejected' | 'all' = 'all';
-    sub :Subscription |null = null;
+export class OrdersComponent implements OnInit, OnDestroy {
+    orders: Order[] = [];
+    filterTerm: string = 'all';
+    private subscription: Subscription = new Subscription();
 
     constructor(private orderService: OrderService) {}
 
     ngOnInit(): void {
-
-        this.sub= this.orderService.getOrders().subscribe(orders => {
-            this.orders = orders;
-            console.log(orders);
+        const orderSubscription = this.orderService.getDetailedOrders().subscribe((data: Order[]) => {
+            console.log(data); // تحقق من البيانات
+            this.orders = data;
         });
-        
-      
+        this.subscription.add(orderSubscription);
     }
 
-    
-    loadOrders(): void {
-        this.orderService.getOrders().subscribe(
-            (data: Order[]) => {
-                this.orders = data;
-                console.log (data);
-                console.log('Orders loaded:', this.orders);
-            },
-            (error: any) => {
-                console.error('Error fetching orders', error);
-            }
-        );
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
-    filterOrders(): any {
+    filterOrders(): Order[] {
         if (this.filterTerm === 'all') {
             return this.orders;
         }
         return this.orders.filter(order => order.status === this.filterTerm);
     }
 
+    getProductTitles(order: Order): string {
+        if (order.products && order.products.length > 0) {
+            return order.products.map(product => product.title).join(', ');
+        }
+        return 'No Products';
+    }
+
     updateOrderStatus(id: number, status: 'accepted' | 'rejected'): void {
-        console.log('Updating order status:', id, status);
         this.orderService.updateOrderStatus(id, status).subscribe(
-            () => {
-                console.log('Order status updated:', id, status);
-                const order = this.orders.find(order => order.id === id);
+            (updatedOrder) => {
+                const order = this.orders.find(o => o.id === id);
                 if (order) {
                     order.status = status;
                 }
             },
-            (error: any) => {
-                console.error('Error updating order status', error);
+            error => {
+                console.error('Error updating order status:', error);
             }
         );
     }
+    
 
-    getProductTitles(order: Order): string {
-        return order.products ? order.products.map(p => p.title).join(', ') : '';
+    updateOrderWithItems(id: number, orderData: any): void {
+        this.orderService.updateOrderWithItems(id, orderData).subscribe((updatedOrder) => {
+            const index = this.orders.findIndex(o => o.id === id);
+            if (index !== -1) {
+                this.orders[index] = updatedOrder;
+            }
+        });
     }
-
-
 }

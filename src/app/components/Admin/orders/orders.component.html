@@ -22,15 +22,15 @@
         </thead>
         <tbody>
             <tr *ngFor="let order of filterOrders()">
-                <td>{{ order.username }}</td>
+                <td>{{ order.username || 'N/A' }}</td>
                 <td>{{ order.date }}</td>
                 <td>{{ order.total_price }}</td>
                 <td>{{ getProductTitles(order) }}</td>
                 <td [ngClass]="{
-                        'status-pending': order.status === 'pending',
-                        'status-accepted': order.status === 'accepted',
-                        'status-rejected': order.status === 'rejected'
-                    }">{{ order.status }}</td>
+                    'status-pending': order.status === 'pending',
+                    'status-accepted': order.status === 'accepted',
+                    'status-rejected': order.status === 'rejected'
+                }">{{ order.status }}</td>
                 <td>
                     <div *ngIf="order.status === 'pending'">
                         <button class="bg-success" (click)="updateOrderStatus(order.id, 'accepted')">Accept</button>

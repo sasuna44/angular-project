@@ -1,85 +1,101 @@
-// edit-product.component.ts
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService, Product } from '../../../../services/product.service';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-product',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.css']
 })
 export class EditProductComponent implements OnInit {
-  editProductForm: FormGroup;
-  product: Product | undefined;
-  imageFile: File | null = null;
+  product: Product = {
+    id: 0,
+    title: '',
+    image: '',
+    price: 0,
+    details: '',
+    created_at: '',
+    updated_at: '',
+    quantity: 0,
+    promotion: undefined
+  };
+  selectedFile: File | null = null;
+  errorMessage: string | null = null;
 
   constructor(
-    private fb: FormBuilder,
+    private productService: ProductService,
     private route: ActivatedRoute,
-    private router: Router,
-    private productService: ProductService
-  ) {
-    this.editProductForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      image: [null],
-      price: [0, [Validators.required, Validators.min(0)]],
-      details: ['', Validators.maxLength(500)]
-    });
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
     if (productId) {
       this.productService.getProductById(+productId).subscribe(
-        (data: Product) => {
-          this.product = data;
-          this.editProductForm.patchValue({
-            title: data.title,
-            price: data.price,
-            details: data.details
-          });
+        (response: any) => {
+          if (response.status === 'success') {
+            this.product = response.data;
+            console.log(this.product); // تحقق من أن البيانات تم جلبها بشكل صحيح
+          } else {
+            console.error('Error fetching product', response);
+          }
         },
         (error) => {
-          console.error('Error fetching product', error);
+          console.error('Error fetching product:', error);
         }
       );
     }
   }
 
-  onFileChange(event: any): void {
-    if (event.target.files.length > 0) {
-      this.imageFile = event.target.files[0];
-      this.editProductForm.patchValue({
-        image: this.imageFile
-      });
-      this.editProductForm.get('image')!.updateValueAndValidity();
+  onSubmit(productForm: NgForm): void {
+    if (productForm.invalid) {
+      this.errorMessage = 'Please fill out the form correctly.';
+      return;
     }
-  }
 
-  onSubmit(): void {
-    if (this.editProductForm.valid && this.product) {
-      const formData = new FormData();
-      formData.append('title', this.editProductForm.get('title')!.value);
-      formData.append('price', this.editProductForm.get('price')!.value.toString());
-      formData.append('details', this.editProductForm.get('details')!.value);
+    const formData = new FormData();
+    formData.append('title', this.product.title);
+    formData.append('price', this.product.price.toString());
+    formData.append('details', this.product.details);
 
-      if (this.imageFile) {
-        formData.append('image', this.imageFile);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+
+    console.log('Form Data:', {
+      id: this.product.id,
+      title: this.product.title,
+      price: this.product.price,
+      details: this.product.details,
+      image: this.selectedFile ? this.selectedFile.name : 'No image selected'
+    });
+
+    this.productService.updateProduct(this.product.id, formData).subscribe(
+      (response) => {
+        console.log('Product updated successfully:', response);
+        this.router.navigate(['admin/products']);
+      },
+      (error) => {
+        console.error('Error updating product:', error);
+        console.error('Error details:', error.error);
+        this.errorMessage = error.error.message || 'Failed to update product. Please try again.';
       }
+    );
+  }
 
-      this.productService.updateProduct(this.product.id, formData).subscribe(
-        () => {
-          this.router.navigate(['/admin/products']);
-        },
-        (error) => {
-          console.error('Error updating product', error);
-        }
-      );
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      this.selectedFile = file;
+      this.errorMessage = null;
+    } else {
+      this.selectedFile = null;
+      this.errorMessage = 'Please select a valid image file.';
     }
   }
 }

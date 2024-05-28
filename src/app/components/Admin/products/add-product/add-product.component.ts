@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ProductService, Product } from '../../../../services/product.service';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Loginservice } from '../../../../services/Login.service';
 
 @Component({
   selector: 'app-add-product',
@@ -12,8 +12,7 @@ import { Loginservice } from '../../../../services/Login.service';
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.css']
 })
-export class AddProductComponent implements OnInit {
-  token: string | null = null;
+export class AddProductComponent {
   product: Product = {
     id: 0,
     title: '',
@@ -25,21 +24,17 @@ export class AddProductComponent implements OnInit {
     quantity: 0,
     promotion: undefined
   };
+  selectedFile: File | null = null;
+  errorMessage: string | null = null;
+  token: string = '';
 
-  constructor(
-    private productService: ProductService,
-    private router: Router,
-    private Loginservice: Loginservice
-  ) {}
-
-  ngOnInit(): void {
-    this.token = this.Loginservice.getTokenFromLocalStorage();
-    console.log(this.token);
+  constructor(private productService: ProductService, private router: Router) {
+    this.token = localStorage.getItem('token') || '';
   }
 
-  addProduct(): void {
-    if (!this.token) {
-      console.error('No token found. Cannot create product.');
+  onSubmit(productForm: NgForm): void {
+    if (productForm.invalid || !this.selectedFile) {
+      this.errorMessage = 'Please fill out the form correctly.';
       return;
     }
 
@@ -48,29 +43,30 @@ export class AddProductComponent implements OnInit {
     formData.append('price', this.product.price.toString());
     formData.append('details', this.product.details);
 
-    if (this.isFile(this.product.image)) {
-      formData.append('image', this.product.image);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
     }
 
-    this.productService.createProduct(formData, this.token).subscribe(
-      createdProduct => {
+    this.productService.createProduct(formData, 'Bearer ' + this.token).subscribe(
+      (response) => {
+        console.log('Product created successfully:', response);
         this.router.navigate(['admin/products']);
       },
-      error => {
+      (error) => {
         console.error('Error creating product:', error);
-        // Show error message to the user
+        this.errorMessage = 'Failed to create product. Please try again.';
       }
     );
   }
 
-  onImgSelected(event: any): void {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.product.image = file;
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      this.selectedFile = file;
+      this.errorMessage = null;
+    } else {
+      this.selectedFile = null;
+      this.errorMessage = 'Please select a valid image file.';
     }
-  }
-
-  private isFile(value: any): value is File {
-    return value instanceof File;
   }
 }

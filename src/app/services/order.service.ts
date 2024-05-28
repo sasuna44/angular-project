@@ -30,6 +30,10 @@ export class OrderService {
         return this.http.get<Order[]>(`${this.apiUrl}/order`);
     }
 
+    getDetailedOrders(): Observable<Order[]> {
+        return this.http.get<Order[]>(`${this.apiUrl}/orders-with-details`);
+    }
+
     getOrderById(id: number): Observable<Order> {
         return this.http.get<Order>(`${this.apiUrl}/order/${id}`);
     }
@@ -43,10 +47,13 @@ export class OrderService {
     }
 
     updateOrderStatus(id: number, status: 'accepted' | 'rejected'): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/${id}`, { status });
+        return this.http.put(`${this.apiUrl}/orders/update-with-items/${id}`, { status });
     }
 
     deleteOrder(id: number): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`);
+    }
+    updateOrderWithItems(id: number, orderData: any): Observable<Order> {
+        return this.http.put<Order>(`${this.apiUrl}/orders/update-with-items/${id}`, orderData);
     }
 }

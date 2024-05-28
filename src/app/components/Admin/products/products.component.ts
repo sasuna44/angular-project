@@ -52,18 +52,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
     );
   }
 
-  filterProducts(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    const searchTerm = target.value.toLowerCase();
-
+  filterProducts(event?: Event): void {
+    const searchTerm = event ? (event.target as HTMLInputElement).value.toLowerCase() : '';
+  
     if (searchTerm) {
       this.filteredProducts = this.products.filter(product =>
         product.title.toLowerCase().includes(searchTerm)
       );
     } else {
-      this.filteredProducts = [...this.products]; // Use spread operator to ensure a new array reference
+      this.filteredProducts = [...this.products];
     }
   }
+  
 
   addProduct(): void {
     this.router.navigate(['/admin/add-product']);
@@ -78,17 +78,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   deleteProduct(id: number): void {
-    if (confirm('Are you sure you want to delete this product?')) {
-      this.productService.deleteProduct(id).subscribe(
-        () => {
-          this.products = this.products.filter(product => product.id !== id);
-          this.filterProducts(new Event('input')); // Refresh the filtered products
-          console.log(`Product with id ${id} deleted successfully`);
-        },
-        (error) => {
-          console.error('Error deleting product', error);
-        }
-      );
-    }
+  if (confirm('Are you sure you want to delete this product?')) {
+    this.productService.deleteProduct(id).subscribe(
+      () => {
+        this.products = this.products.filter(product => product.id !== id);
+        this.filterProducts();
+        console.log(`Product with id ${id} deleted successfully`);
+      },
+      (error) => {
+        console.error('Error deleting product', error);
+      }
+    );
   }
+}
+
 }
