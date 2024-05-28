@@ -41,7 +41,7 @@ export class AddProductComponent {
 
     this.productService.createProduct(formData).subscribe(
       createdProduct => {
-        this.router.navigate(['/products']);
+        this.router.navigate(['admin/products']);
       },
       error => {
         console.error('Error creating product:', error);
