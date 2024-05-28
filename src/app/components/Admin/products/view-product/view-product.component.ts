@@ -23,11 +23,15 @@ export class ViewProductComponent implements OnInit {
     const productId = this.route.snapshot.paramMap.get('id');
     if (productId) {
       this.productService.getProductById(+productId).subscribe(
-        (data: Product) => {
-          this.product = data;
-          console.log('Product data:', this.product); // تأكد من عرض البيانات في الكونسول
+        (response: any) => {
+          if (response.status === 'success') {
+            this.product = response.data;  
+            console.log(this.product);
+          } else {
+            console.error('Error fetching product', response);
+          }
         },
-        (error) => {
+        error => {
           console.error('Error fetching product', error);
         }
       );

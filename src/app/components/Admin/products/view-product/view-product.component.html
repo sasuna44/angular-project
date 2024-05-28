@@ -1,15 +1,18 @@
-<section id="view-product">
-    <h2>View Product</h2>
-    <div *ngIf="product">
-      <p><strong>Title:</strong> {{ product.title }}</p>
-      <p><strong>Price:</strong> {{ product.price }}</p>
-      <p><strong>Details:</strong> {{ product.details }}</p>
-      <p><strong>Image:</strong></p>
-      <img [src]="product.image" alt="{{ product.title }}" style="width: 200px; height: 200px;">
-      <button (click)="goBack()">Back</button>
+<div *ngIf="product">
+    <h1>{{ product.title }}</h1>
+    <img [src]="product.image" alt="{{ product.title }}">
+    <p>Details: {{ product.details }}</p>
+    <p>Price: {{ product.price | currency }}</p>
+    <div *ngIf="product.promotion">
+      <h3>Promotion</h3>
+      <p>Discount Percentage: {{ product.promotion.discount_percentage }}%</p>
+      <p>Start Date: {{ product.promotion.start_date }}</p>
+      <p>End Date: {{ product.promotion.end_date }}</p>
     </div>
-    <div *ngIf="!product">
-      <p>Loading...</p>
-    </div>
-  </section>
+    <button (click)="goBack()">Back to Products</button>
+  </div>
+  
+  <div *ngIf="!product">
+    <p>Loading product details...</p>
+  </div>
   

@@ -34,8 +34,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   loadProducts(): void {
     this.sub = this.productService.getProducts().subscribe(
       (response: any) => {
-        console.log('API response:', response); // Log the full response
-        // Check if the response is an array or has a data property that is an array
         if (Array.isArray(response)) {
           this.products = response;
         } else if (response.data && Array.isArray(response.data)) {
@@ -44,7 +42,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
           console.error('Unexpected API response format:', response);
         }
         this.filteredProducts = [...this.products]; // Use spread operator to ensure a new array reference
-        console.log('Products loaded:', this.products); // Check the data here
       },
       (error) => {
         console.error('Error fetching products', error);
@@ -82,8 +79,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.productService.deleteProduct(id).subscribe(
         () => {
           this.products = this.products.filter(product => product.id !== id);
-          this.filterProducts(new Event('input')); // Refresh the filtered products
-          console.log(`Product with id ${id} deleted successfully`);
+          this.filteredProducts = this.filteredProducts.filter(product => product.id !== id);
         },
         (error) => {
           console.error('Error deleting product', error);

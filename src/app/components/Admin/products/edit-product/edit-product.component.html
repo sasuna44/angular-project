@@ -1,38 +1,27 @@
-<!-- edit-product.component.html -->
-<section id="edit-product">
-    <h2>Edit Product</h2>
-    <form [formGroup]="editProductForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" id="title" formControlName="title" class="form-control">
-        <div *ngIf="editProductForm.get('title')?.invalid && editProductForm.get('title')?.touched" class="error">
-          <small *ngIf="editProductForm.get('title')?.errors?.['required']">Title is required.</small>
-          <small *ngIf="editProductForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters long.</small>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Edit Product</h2>
+      <form>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" [(ngModel)]="product.title" name="title" required>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="image">Image</label>
-        <input type="file" id="image" (change)="onFileChange($event)" class="form-control">
-        <div *ngIf="editProductForm.get('image')?.invalid && editProductForm.get('image')?.touched" class="error">
-          <small *ngIf="editProductForm.get('image')?.errors?.['required']">Image is required.</small>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="number" class="form-control" id="price" [(ngModel)]="product.price" name="price" required>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" id="price" formControlName="price" class="form-control">
-        <div *ngIf="editProductForm.get('price')?.invalid && editProductForm.get('price')?.touched" class="error">
-          <small *ngIf="editProductForm.get('price')?.errors?.['required']">Price is required.</small>
-          <small *ngIf="editProductForm.get('price')?.errors?.['min']">Price must be a positive number.</small>
+        <div class="form-group">
+          <label for="details">Details</label>
+          <textarea class="form-control" id="details" [(ngModel)]="product.details" name="details"></textarea>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="details">Details</label>
-        <textarea id="details" formControlName="details" class="form-control"></textarea>
-        <div *ngIf="editProductForm.get('details')?.invalid && editProductForm.get('details')?.touched" class="error">
-          <small *ngIf="editProductForm.get('details')?.errors?.['maxlength']">Details must be less than 500 characters.</small>
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" (change)="onImgSelected($event)" class="form-control" id="image" name="image">
+          <img *ngIf="!isFile(product.image)" [src]="product.image" alt="{{ product.title }}" style="max-width: 200px; margin-top: 10px;">
         </div>
-      </div>
-      <button type="submit" class="btn btn-primary" >Update Product</button>
-    </form>
-  </section>
-  
+        <button type="button" class="btn btn-primary" (click)="updateProduct()">Update Product</button>
+      </form>
+    </div>
+  </div>
+</div>

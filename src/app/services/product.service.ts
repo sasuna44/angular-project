@@ -41,7 +41,7 @@ export class ProductService {
   }
 
   updateProduct(id: number, formData: FormData): Observable<Product> {
-    return this.http.put<Product>(`${this.baseurl}/${id}`, formData);
+    return this.http.patch<Product>(`${this.baseurl}/${id}`, formData);
   }
 
   deleteProduct(id: number): Observable<void> {

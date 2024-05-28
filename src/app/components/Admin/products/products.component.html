@@ -18,7 +18,7 @@
             <td>{{ product.id }}</td>
             <td>{{ product.title }}</td>
             <td>{{ product.price }}</td>
-            <td>
+            <td class="btn-group">
               <button class="btn btn-info" (click)="viewProduct(product.id)">View</button>
               <button class="btn btn-warning" (click)="editProduct(product.id)">Edit</button>
               <button class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
