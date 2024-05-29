@@ -16,7 +16,7 @@ export interface CartItem {
   cart_id: number;
   product_id: number;
   quantity: number;
-  prodcut :Product ;
+  product :Product ;
 }
 
 @Injectable({

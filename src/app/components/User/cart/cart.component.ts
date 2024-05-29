@@ -17,7 +17,6 @@ import { Order, OrderService } from '../../../services/order.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit, OnDestroy {
-  faTrashAlt = faTrashAlt;
   sub: Subscription | null = null;
   cart_id: any = localStorage.getItem('cart_id') ;    
   user_id: number  =  parseInt(localStorage.getItem('id')!, 10) ;  
@@ -33,6 +32,7 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartService.getCartByUserId(this.user_id).subscribe(items =>{
         this.sub = this.cartService.getCartItems(this.cart_id).subscribe(items => {
           this.cart = items;
+          console.log(this.cart);
           this.calculateTotalPrice();
         });
       })
@@ -45,10 +45,10 @@ export class CartComponent implements OnInit, OnDestroy {
 
   calculateTotalPrice(): void {
     this.cart.forEach(item => {
-      item.prodcut.price = item.prodcut.price * item.quantity;
-      console.log(item.prodcut.price);
+      item.product.price = item.product.price * item.quantity;
+      console.log(item.product.price);
     });
-      this.totalPrice = this.cart.reduce((total, item) => total + (item.prodcut.price * item.quantity), 0);
+      this.totalPrice = this.cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
     
   }
 
@@ -63,4 +63,6 @@ export class CartComponent implements OnInit, OnDestroy {
       }
     });
   }
+  faTrashAlt = faTrashAlt;
+
 }

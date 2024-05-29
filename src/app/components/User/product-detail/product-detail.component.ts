@@ -54,7 +54,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         cart_id: this.cart_id,
         product_id: product.id,
         quantity: 1, 
-        prodcut: product 
+        product: product 
       };
 
       this.cartService.createCartItem(cartItem).subscribe(response => {
