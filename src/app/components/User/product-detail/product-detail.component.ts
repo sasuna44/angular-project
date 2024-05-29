@@ -47,21 +47,18 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
-  addToCart(product: Product): void {
-    if (this.cart_id && this.product) {
+  addToCart(product_id :number) : void {
+    if (this.cart_id) {
       const cartItem: CartItem = {
         id: 0, 
         cart_id: this.cart_id,
-        product_id: product.id,
+        product_id: product_id,
         quantity: 1, 
-        product: product 
       };
 
-      this.cartService.createCartItem(cartItem).subscribe(response => {
-        console.log('Item added to cart:', response);
-      }, error => {
-        console.error('Error adding item to cart:', error);
-      });
+      this.cartService.createCartItem(cartItem).subscribe(res=>{
+        console.log(res);
+      })
     }
   }
 }

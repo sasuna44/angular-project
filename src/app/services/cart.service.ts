@@ -16,7 +16,7 @@ export interface CartItem {
   cart_id: number;
   product_id: number;
   quantity: number;
-  product :Product ;
+  product?:Product;
 }
 
 @Injectable({
@@ -51,6 +51,9 @@ export class CartService {
 
   deleteCartItem(cartItemId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/cart-items/${cartItemId}`);
+  }
+  deleteCartItems(cartId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/cart-items/${cartId}`);
   }
 
  

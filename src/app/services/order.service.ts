@@ -8,7 +8,7 @@ export interface Order {
     user_id : number;
     total_price: number;
     status: 'accepted' | 'pending' | 'rejected';
-    
+
  }
  export interface OrderItem {
     id: number;
@@ -35,7 +35,7 @@ export class OrderService {
     }
 
     createOrder(order: Order): Observable<Order> {
-        return this.http.post<Order>(this.apiUrl, order);
+        return this.http.post<Order>(`${this.apiUrl}/order`, order);
     }
     createOrderItem(orderItem: OrderItem): Observable<OrderItem> {
         return this.http.post<OrderItem>(this.apiUrl, orderItem);

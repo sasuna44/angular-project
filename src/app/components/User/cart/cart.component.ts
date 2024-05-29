@@ -32,7 +32,14 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartService.getCartByUserId(this.user_id).subscribe(items =>{
         this.sub = this.cartService.getCartItems(this.cart_id).subscribe(items => {
           this.cart = items;
+          // items.forEach(item => {
+          //   this.sub = this.orderService.createOrderItem(item).subscribe(data=>{
+          //     console.log(data);
+          //   })
+          // });
+      
           console.log(this.cart);
+
          
           this.calculateTotalPrice();
         });
@@ -46,12 +53,20 @@ export class CartComponent implements OnInit, OnDestroy {
 
   calculateTotalPrice(): void {
     this.cart.forEach(item => {
-      item.product.price = item.product.price * item.quantity;
-      console.log(item.product.price);
+        if (item.product ) {
+            item.product.price = item.product.price * item.quantity;
+            console.log(item.product.price);
+        }
     });
-      this.totalPrice = this.cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
-    
-  }
+
+    this.totalPrice = this.cart.reduce((total, item) => {
+        if (item.product) {
+            return total + (item.product.price * item.quantity);
+        }
+        return total;
+    }, 0);
+}
+
 
   removeFromCart(cartItemId: number): void {
     this.cartService.deleteCartItem(cartItemId).subscribe({
@@ -76,6 +91,11 @@ export class CartComponent implements OnInit, OnDestroy {
     this.orderService.createOrder(orderData).subscribe(order =>{
       this.order = order;
       console.log(this.order);
+
+    })
+    //send the cartitems to order items
+    this.cartService.deleteCartItems(this.cart_id).subscribe(cart =>{
+      console.log(cart);
     })
   }
   }
