@@ -12,6 +12,7 @@ import { EditprofileComponent } from './components/editprofile/editprofile.compo
 import { OrderComponent } from './components/order/order.component';
 import { NavbarComponent } from './components/layout/navbar-component/navbar-component.component';
 import { CartComponent } from './components/User/cart/cart.component';
+import { AboutComponent } from './components/User/about/about.component';
 export const routes: Routes = [
   {
       path: '',
@@ -27,6 +28,8 @@ export const routes: Routes = [
   },
     
     {path: 'cart', component: CartComponent } ,   
+    {path: 'about', component: AboutComponent } ,   
+
     //Product 
     {path:"home",component:HomeComponent},
     {path: 'products/:id',component:ProductDetailComponent },
