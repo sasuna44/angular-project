@@ -5,11 +5,10 @@ import { Product } from './product.service';
 
 export interface Order {
     id: number;
-    order_id: number;
-    product_id: number;
-    quantity: number;
-    price: number;
-    status: string;
+    user_id : number;
+    total_price: number;
+    status: 'accepted' | 'pending' | 'rejected';
+    
  }
  export interface OrderItem {
     id: number;

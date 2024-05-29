@@ -33,6 +33,7 @@ export class CartComponent implements OnInit, OnDestroy {
         this.sub = this.cartService.getCartItems(this.cart_id).subscribe(items => {
           this.cart = items;
           console.log(this.cart);
+         
           this.calculateTotalPrice();
         });
       })
@@ -64,5 +65,18 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
   faTrashAlt = faTrashAlt;
-
+  placeOrder():void{
+    if (this.cart && this.user_id) {
+      const orderData :Order = {
+        id:0,
+        user_id: this.user_id,
+        total_price: this.totalPrice,
+        status: 'pending'
+      };
+    this.orderService.createOrder(orderData).subscribe(order =>{
+      this.order = order;
+      console.log(this.order);
+    })
+  }
+  }
 }
