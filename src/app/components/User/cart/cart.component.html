@@ -8,7 +8,7 @@
             @for(item of cart ; track $index){
               <div class="cart-container d-flex justify-content-evenly align-items-center my-4">
                 <div class="item-img">
-                    <img src="{{item.product.image}}" alt="{{item.product.title}}">
+                    <img src="{{item.prodcut.image}}" alt="{{item.prodcut.title}}">
                 </div>
                 <div class="item-details text-capitalize">
                 <h3 class="fw-bold">{{ item.product.title }}</h3>
@@ -20,7 +20,7 @@
                 </div>
                 </div>
                 <div class="item-action">
-                    <button class="btn cart-btn " (click)="removeFromCart( item.cart_id ,item.product_id)">
+                    <button class="btn cart-btn " (click)="removeFromCart(item.id)">
                         <fa-icon [icon]="faTrashAlt"></fa-icon>
                     </button>
                 </div> 

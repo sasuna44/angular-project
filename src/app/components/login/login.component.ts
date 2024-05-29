@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Loginservice } from '../../services/Login.service';
 import { Router } from '@angular/router';
 import { Login, Auth } from '../../models/Register.model';
@@ -6,6 +6,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSignInAlt ,faShoppingCart,faHeart} from '@fortawesome/free-solid-svg-icons';  // Import the specific icon
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,16 @@ import { faSignInAlt ,faShoppingCart,faHeart} from '@fortawesome/free-solid-svg-
 export class LoginComponent {
   Login: Login = new Login("", "");
   errorMessage: string | null = null;
-  faSignInAlt = faSignInAlt;  // Add this line to define the icon
+  faSignInAlt = faSignInAlt;  
   faShoppingCart=faShoppingCart;
   faHeart = faHeart;
+  cart_id  :number = 0 ;
   constructor(
     private loginService: Loginservice,
-    private router: Router
+    private router: Router ,
+    private cartService: CartService
   ) {}
+ 
 
   login(LoginForm: NgForm): void {
     if (LoginForm.invalid) {
@@ -38,7 +42,12 @@ export class LoginComponent {
         localStorage.setItem('token', response.token);
         if (response.user.id) {
           localStorage.setItem('id', response.user.id.toString());
-          console.log(response.user);
+            this.cartService.createCart(response.user.id).subscribe(cart => {
+              console.log("Cart created:", cart);
+              this.cart_id = cart.id;
+              localStorage.setItem('cart_id', cart.id.toString());
+            })
+          
           if(response.user.role == "user"){
             console.log(response.user.id);
             this.router.navigateByUrl(`/profile/${response.user.id}`);

@@ -15,8 +15,8 @@ export interface CartItem {
   id: number;
   cart_id: number;
   product_id: number;
-  product: Product;
   quantity: number;
+  prodcut :Product ;
 }
 
 @Injectable({
@@ -45,7 +45,7 @@ export class CartService {
     return this.http.get<CartItem[]>(`${this.apiUrl}/cart-items/${cartid}`);
   }
 
-  addCartItem(cartItem: CartItem): Observable<CartItem> {
+ createCartItem(cartItem: CartItem): Observable<CartItem> {
     return this.http.post<CartItem>(`${this.apiUrl}/cart-items`, cartItem);
   }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsComponent } from '../products/products.component';
 import { ProductListComponent } from '../product-list/product-list.component';
+import { CartService } from '../../../services/cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,10 @@ import { ProductListComponent } from '../product-list/product-list.component';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  user_id = localStorage.getItem('id');
+  user_id: number | null = localStorage.getItem('id') ? parseInt(localStorage.getItem('id')!, 10) : null;  
+  sub:Subscription | null = null;
 
   ngOnInit(): void {
-    if(this.user_id  == null ){
-      this.user_id = null ;
-    }
-    console.log( 'id' , this.user_id);
-    console.log(localStorage.getItem('user_id'));
   }
 
 }
