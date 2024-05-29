@@ -52,8 +52,8 @@ export class CartService {
   deleteCartItem(cartItemId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/cart-items/${cartItemId}`);
   }
-  deleteCartItems(cartId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/cart-items/${cartId}`);
+  deleteCartItems(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/cart-items/`);
   }
 
  

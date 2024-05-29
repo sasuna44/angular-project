@@ -7,7 +7,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { OrderComponent } from '../order/order.component';
 import { Product } from '../../../services/product.service';
-import { Order, OrderService } from '../../../services/order.service';
+import { Order, OrderItem, OrderService ,productOrder } from '../../../services/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -23,7 +23,9 @@ export class CartComponent implements OnInit, OnDestroy {
   cart: CartItem[] = [];
   order:Order |null = null;
   totalPrice :number = 0 ;
-
+  order_id  :number = 0;
+  orderProducts :productOrder[] =  [];
+  OrderItems:OrderItem[] = [];
   constructor(private activatedRoute: ActivatedRoute, private cartService: CartService , private orderService :OrderService)   {}
 
   ngOnInit(): void {
@@ -32,12 +34,20 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartService.getCartByUserId(this.user_id).subscribe(items =>{
         this.sub = this.cartService.getCartItems(this.cart_id).subscribe(items => {
           this.cart = items;
-          // items.forEach(item => {
-          //   this.sub = this.orderService.createOrderItem(item).subscribe(data=>{
-          //     console.log(data);
-          //   })
-          // });
-      
+          
+          this.orderProducts = items.map(item => {
+            let price = 0;
+            if (item.product) {
+              price = item.product.price;
+            }
+            return {
+              product_id: item.product_id,
+              quantity: item.quantity,
+              price: price
+            };
+          });
+          console.log(this.orderProducts);
+
           console.log(this.cart);
 
          
@@ -60,7 +70,7 @@ export class CartComponent implements OnInit, OnDestroy {
     });
 
     this.totalPrice = this.cart.reduce((total, item) => {
-        if (item.product) {
+        if (item.product?.price) {
             return total + (item.product.price * item.quantity);
         }
         return total;
@@ -89,14 +99,41 @@ export class CartComponent implements OnInit, OnDestroy {
         status: 'pending'
       };
     this.orderService.createOrder(orderData).subscribe(order =>{
-      this.order = order;
-      console.log(this.order);
+      this.order_id  = order.id;
+      this.orderProducts.forEach(orderproduct => {
+        let item : OrderItem = {
+          id:0,
+          order_id: this.order_id,
+          product_id: orderproduct.product_id,
+          quantity: orderproduct.quantity,
+          price: orderproduct.price,
+          created_at: "",
+          updated_at: ""
+        };
+        this.OrderItems.push(item);
+      });
+
+      this.OrderItems.forEach(item => {
+        console.log("sendddddddddddd",item);
+        this.orderService.createOrderItem(item).subscribe((data) => {
+        });
+      });
+
+
+      this.cartService.deleteCartItems().subscribe(() => {
+        this.cart = [];
+        this.totalPrice = 0;
+        console.log('Cart cleared after placing order.');
+      });
+
 
     })
-    //send the cartitems to order items
-    this.cartService.deleteCartItems(this.cart_id).subscribe(cart =>{
-      console.log(cart);
-    })
-  }
+
+    
+
+    
   }
 }
+}
+
+  
