@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { OrderService, Order } from '../../../services/order.service';
+import { OrderAdminService, Order } from '../../../services/orderAdmin.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,11 +16,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
     filterTerm: string = 'all';
     private subscription: Subscription = new Subscription();
 
-    constructor(private orderService: OrderService) {}
+    constructor(private OrderAdminService: OrderAdminService) {}
 
     ngOnInit(): void {
-        const orderSubscription = this.orderService.getDetailedOrders().subscribe((data: Order[]) => {
-            console.log(data); // تحقق من البيانات
+        const orderSubscription = this.OrderAdminService.getDetailedOrders().subscribe((data: Order[]) => {
+            console.log(data); 
             this.orders = data;
         });
         this.subscription.add(orderSubscription);
@@ -37,16 +37,16 @@ export class OrdersComponent implements OnInit, OnDestroy {
         return this.orders.filter(order => order.status === this.filterTerm);
     }
 
-    // getProductTitles(order: Order): string {
-    //     if (order.products && order.products.length > 0) {
-    //         return order.products.map(product => product.title).join(', ');
-    //     }
-    //     return 'No Products';
-    // }
+    getProductTitles(order: Order): string {
+        if (order.products && order.products.length > 0) {
+            return order.products.map(product => product.title).join(', ');
+        }
+        return 'No Products';
+    }
 
     updateOrderStatus(id: number, status: 'accepted' | 'rejected'): void {
-        this.orderService.updateOrderStatus(id, status).subscribe(
-            (updatedOrder) => {
+        this.OrderAdminService.updateOrderStatus(id, status).subscribe(
+            (_updatedOrder) => {
                 const order = this.orders.find(o => o.id === id);
                 if (order) {
                     order.status = status;
@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     
 
     updateOrderWithItems(id: number, orderData: any): void {
-        this.orderService.updateOrderWithItems(id, orderData).subscribe((updatedOrder) => {
+        this.OrderAdminService.updateOrderWithItems(id, orderData).subscribe((updatedOrder) => {
             const index = this.orders.findIndex(o => o.id === id);
             if (index !== -1) {
                 this.orders[index] = updatedOrder;

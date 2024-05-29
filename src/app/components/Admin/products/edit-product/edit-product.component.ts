@@ -63,16 +63,16 @@ export class EditProductComponent implements OnInit {
     formData.append('price', this.product.price.toString());
     formData.append('details', this.product.details);
 
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile, this.selectedFile.name);
-    }
+    // if (this.selectedFile) {
+    //   formData.append('image', this.selectedFile, this.selectedFile.name);
+    // }
 
     console.log('Form Data:', {
       id: this.product.id,
       title: this.product.title,
       price: this.product.price,
       details: this.product.details,
-      image: this.selectedFile ? this.selectedFile.name : 'No image selected'
+      // image: this.selectedFile ? this.selectedFile.name : 'No image selected'
     });
 
     this.productService.updateProduct(this.product.id, formData).subscribe(
@@ -88,14 +88,14 @@ export class EditProductComponent implements OnInit {
     );
   }
 
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      this.selectedFile = file;
-      this.errorMessage = null;
-    } else {
-      this.selectedFile = null;
-      this.errorMessage = 'Please select a valid image file.';
-    }
-  }
+  // onFileSelected(event: any): void {
+  //   const file = event.target.files[0];
+  //   if (file && file.type.startsWith('image/')) {
+  //     this.selectedFile = file;
+  //     this.errorMessage = null;
+  //   } else {
+  //     this.selectedFile = null;
+  //     this.errorMessage = 'Please select a valid image file.';
+  //   }
+  // }
 }
