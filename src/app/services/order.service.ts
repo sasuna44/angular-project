@@ -18,9 +18,14 @@ export interface Order {
     price: number;
     created_at: string;
     updated_at: string;
-    product: Product;
+    product?: Product;
 }
 
+export interface productOrder{
+    product_id: number;
+    quantity: number;
+    price: number;
+  }
 
 @Injectable({
     providedIn: 'root'
@@ -37,8 +42,8 @@ export class OrderService {
     createOrder(order: Order): Observable<Order> {
         return this.http.post<Order>(`${this.apiUrl}/order`, order);
     }
-    createOrderItem(orderItem: OrderItem): Observable<OrderItem> {
-        return this.http.post<OrderItem>(this.apiUrl, orderItem);
+    createOrderItem(orderItem: OrderItem ): Observable<OrderItem> {
+        return this.http.post<OrderItem>(`${this.apiUrl}/order-items`, orderItem);
       }
 
     getDetailedOrders(): Observable<Order[]> {
