@@ -4,32 +4,7 @@
         <h1>Check out</h1>
         </div>
         <div class="order-carts-information text-dark d-flex flex-column gap-3">
-            @for(item of order_items ; track $index){
-                <div class="order-item d-flex justify-content-evenly align-items-center ">
-                    <div class="order-image">
-                        <!-- {{item.product.image}} -->
-                        <img src="https://cdn.shopify.com/s/files/1/0341/3458/9485/products/FB_POSTHOL22_T2PRODUCT_CONCRETE_FENTY_ICON_VELVET_LIQUID_LIP_OPEN_MVP_1200x1500_ea016da9-a316-4f2b-8afd-9d822277a907.jpg?v=1669934439" alt="{{item.product.title}}">
-                    </div>
-                    <div class="order-details text-capitalize">
-                        <h1 class="fw-bold fs-4">{{item.product.title}}</h1>
-                        <p class="fw-light">{{item.product.details}}</p>
-                        <p>price : <span >{{item.product.price}}</span> EGP</p>
-                    </div>
-                    <div class="order-quantity">
-                        <!-- <select name="quantity" id="">
-                            <option value="{{item.product.quantity}}"></option>
-                        </select> -->
-                        <p>quantity : <span>{{item.product.quantity}}</span></p>
-                    </div>
-                    <div class="order-action">
-                        <button class="btn cart-btn " (click)="RemoveFromItems(item.id)">
-                            <fa-icon [icon]="faTrashAlt"></fa-icon>
-                        </button>
-                    </div>
-
-
-                </div>
-            }
+           
             
         </div>
         <div class="total-details">

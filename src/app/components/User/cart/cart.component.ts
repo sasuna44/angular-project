@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { CartItem, CartService, } from '../../../services/cart.service';
+import { Cart, CartItem, CartService, } from '../../../services/cart.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'; 
 import { Subscription } from 'rxjs';
@@ -21,8 +21,9 @@ export class CartComponent implements OnInit, OnDestroy {
   sub: Subscription | null = null;
   cart_id: any = localStorage.getItem('cart_id') ;    
   user_id: number  =  parseInt(localStorage.getItem('id')!, 10) ;  
-  cart: any[] = [];
+  cart: CartItem[] = [];
   order:Order |null = null;
+  totalPrice :number = 0 ;
 
   constructor(private activatedRoute: ActivatedRoute, private cartService: CartService , private orderService :OrderService)   {}
 
@@ -31,17 +32,24 @@ export class CartComponent implements OnInit, OnDestroy {
     this.sub = 
       this.cartService.getCartByUserId(this.user_id).subscribe(items =>{
         this.sub = this.cartService.getCartItems(this.cart_id).subscribe(items => {
-          console.log("the items", items[0]);
           this.cart = items;
+          this.calculateTotalPrice();
         });
       })
-      // this.sub = this.orderService.(order).subscribe(data => {
-      //   console.log(data);
-      // } 
-  }
+
+    } 
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+
+  calculateTotalPrice(): void {
+    this.cart.forEach(item => {
+      item.prodcut.price = item.prodcut.price * item.quantity;
+      console.log(item.prodcut.price);
+    });
+      this.totalPrice = this.cart.reduce((total, item) => total + (item.prodcut.price * item.quantity), 0);
+    
   }
 
   removeFromCart(cartItemId: number): void {

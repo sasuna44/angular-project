@@ -6,15 +6,16 @@
                 <p class="alert alert-danger"> No item in the cart .</p>
             }
             @for(item of cart ; track $index){
+                {{item.prodcut.id}}
               <div class="cart-container d-flex justify-content-evenly align-items-center my-4">
                 <div class="item-img">
                     <img src="{{item.prodcut.image}}" alt="{{item.prodcut.title}}">
                 </div>
                 <div class="item-details text-capitalize">
-                <h3 class="fw-bold">{{ item.product.title }}</h3>
-                <p>{{ item.product.details }}</p>
+                <h3 class="fw-bold">{{ item.prodcut.title }}</h3>
+                <p>{{ item.prodcut.details }}</p>
                 <div class="item-info d-felx ">
-                    <h5>Price : <span>{{ item.product.price }}</span> </h5>
+                    <h5>Price : <span>{{ item.prodcut.price }}</span> </h5>
                     <!-- it will be replace with select to get the remaning quantity  -->
                     <h5>Quntity : <span>{{ item.quantity }}</span></h5>
                 </div>
@@ -28,7 +29,13 @@
             }
         </div>
         <div class="col-md-4 my-3">
-            <app-order></app-order>
+            <div class="checkout">
+                <h1>Checkout</h1>
+                <div class="checkout-price">
+                    {{totalPrice}}
+                </div>
+            </div>
+
         </div>
     </div>
     
