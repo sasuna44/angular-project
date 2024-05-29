@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSignInAlt, faHeart, faShoppingCart, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faHeart, faShoppingCart, faUserPlus, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService, Product } from '../../../services/product.service'; 
@@ -9,6 +9,8 @@ import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ProfileService } from '../../../services/Profile.service';
+import { Loginservice } from '../../../services/Login.service';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -24,17 +26,21 @@ export class NavbarComponent implements OnInit {
   faHeart = faHeart;
   faShoppingCart = faShoppingCart;
   faUserPlus = faUserPlus;
+  faTachometerAlt = faTachometerAlt;
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
   isLoggedIn: boolean = false; 
-  constructor(private productService: ProductService, private router: Router,private profileService: ProfileService) {} 
+  isAdmin: boolean = false;
+
+  constructor(private productService: ProductService, private router: Router,private profileService: ProfileService ,  private Loginservice: Loginservice) {} 
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe((data: Product[]) => {
       this.products = data;
       this.filteredProducts = data;
       this.isLoggedIn = !!localStorage.getItem('userData');
+      this.isAdmin = this.Loginservice.isAdmin();
     });
   }
   
@@ -43,6 +49,7 @@ export class NavbarComponent implements OnInit {
     this.isLoggedIn = true;
     this.profileService.removeTokenFromLocalStorage();
     this.profileService.removeUserFromLocalStorage();
+
   }
   login(): void {
     this.isLoggedIn = false;

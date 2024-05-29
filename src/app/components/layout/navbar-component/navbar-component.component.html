@@ -36,6 +36,11 @@
                     <fa-icon [icon]="faShoppingCart"></fa-icon> Cart
                 </a>
             </li>
+            <li class="nav-item" *ngIf="isAdmin">
+                <a class="nav-link" [routerLink]="'/admin/dashboard'">
+                  <fa-icon [icon]="faTachometerAlt"></fa-icon> Dashboard
+                </a>
+              </li>
           </ul>
       </div>
   </div>

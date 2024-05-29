@@ -63,7 +63,7 @@ export class ProductService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
     });
-    return this.http.patch<Product>(`${this.baseurl}/${productId}`, formData, { headers }).pipe(
+    return this.http.post<Product>(`${this.baseurl}/${productId}`, formData, { headers }).pipe(
       catchError((error: any) => {
         return throwError(error);
       })
